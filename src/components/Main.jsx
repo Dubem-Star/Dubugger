@@ -110,7 +110,7 @@ function Main(prop) {
             <textarea
               id="msgInput"
               rows="3"
-              className="w-full bg-transparent text-sm text-slate-300 resize-none outline-none px-4 pt-4 pb-2 leading-relaxed placeholder:text-slate-600"
+              className="w-full bg-transparent text-base text-slate-300 resize-none outline-none px-4 pt-4 pb-2 leading-relaxed placeholder:text-slate-600"
               placeholder="Ask Dubby..."
               onInput={() => {
                 const msg = document.getElementById("msgInput").value.trim();
