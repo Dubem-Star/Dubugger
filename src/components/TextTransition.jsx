@@ -4,7 +4,7 @@ export default function TextTransition({
   words,
   typingSpeed = 50,
   deletingSpeed = 50,
-  pauseTime = 3000,
+  pauseTime = 2000,
 }) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentTokenIndex, setCurrentTokenIndex] = useState(0);

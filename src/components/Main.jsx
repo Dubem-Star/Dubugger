@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import TextTransition from "./TextTransition";
 
 function Main(prop) {
-  const [isInputValue, setIsInputValue] = useState("");
+  // const [isInputValue, setIsInputValue] = useState("");
 
   function fillQuick(text) {
     document.getElementById("msgInput").value = text;
@@ -115,9 +115,9 @@ function Main(prop) {
               onInput={() => {
                 const msg = document.getElementById("msgInput").value.trim();
                 if (msg) {
-                  setIsInputValue(true);
+                  prop.setIsInputValue(true);
                 } else {
-                  setIsInputValue(false);
+                  prop.setIsInputValue(false);
                 }
               }}
             ></textarea>
@@ -137,11 +137,10 @@ function Main(prop) {
                 </button>
               </div>
               <div className="flex items-center gap-2">
-                {/* <img src="/cmdrKitten_loading_state.gif" className="w-15" /> */}
                 <button
                   id="sendBtn"
                   onClick={() => prop.handleSend()}
-                  className={`w-7 h-7 rounded-full flex items-center justify-center transition-opacity cursor-pointer ${isInputValue ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}
+                  className={`w-7 h-7 rounded-full flex items-center justify-center transition-opacity cursor-pointer ${prop.isInputValue ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}
                   style={{
                     background:
                       "linear-gradient(90deg, #61eb96, #59d88a, #0ee9b6)",
