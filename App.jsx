@@ -15,13 +15,16 @@ function App() {
     const sendBtn = document.getElementById("sendBtn");
     loadingBar.classList.add("show");
 
-    const response = await fetch("/api/sendMessage", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://dubugger.vercel.app/api/sendMessage",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: isInputValue }),
       },
-      body: JSON.stringify({ message: "Hello Dubby" }),
-    });
+    );
 
     const res = await response.json();
 
@@ -29,8 +32,11 @@ function App() {
       loadingBar.classList.remove("show");
       sendBtn.disabled = true;
       document.getElementById("msgInput").value = "";
+
+      const aiReply = res.data.messages.at(-1).content;
+
+      alert(res.data`User: ${isInputValue}....Model:${aiReply} `);
       setIsInputValue(false);
-      alert(res.data);
     } else {
       alert("error");
     }

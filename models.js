@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const chatHistorySchema = new mongoose.Schema(
   {
     chatId: { type: String, default: "anon_session_8f93a" },
-    messages: [{ type: String }],
+    messages: [{ role: { type: String }, content: { type: String } }],
   },
 
   { timestamps: true },
