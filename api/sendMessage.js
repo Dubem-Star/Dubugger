@@ -14,25 +14,25 @@ const sendMessage = async (req, res) => {
     const { message } = req.body;
 
     // Get and Update the Chat History from Database (Prompt)
-    let chat = await ChatHistory.findOne({ chatId: "anon_session_8f93a" });
-    if (chat) {
-      chat = await ChatHistory.findOneAndUpdate(
-        { chatId: "anon_session_8f93a" },
-        {
-          $push: { messages: { role: "user", content: message } },
-        },
-        { new: true },
-      );
-    } else {
-      chat = await ChatHistory.create(
-        {
-          chatId: "anon_session_8f93a",
-          messages: [{ role: "user", content: message }],
-        },
+    // let chat = await ChatHistory.findOne({ chatId: "anon_session_8f93a" });
+    // if (chat) {
+    //   chat = await ChatHistory.findOneAndUpdate(
+    //     { chatId: "anon_session_8f93a" },
+    //     {
+    //       $push: { messages: { role: "user", content: message } },
+    //     },
+    //     { new: true },
+    //   );
+    // } else {
+    const chat = await ChatHistory.create(
+      {
+        chatId: "anon_session_8f93a",
+        messages: [{ role: "user", content: message }],
+      },
 
-        { new: true },
-      );
-    }
+      // { new: true },
+    );
+    // }
 
     // Send the prompt to Gemini API
     const formattedContent = chat.messages.map((msg) => {
