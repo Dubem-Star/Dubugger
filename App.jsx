@@ -39,6 +39,7 @@ function App() {
       setIsInputValue(false);
     } else {
       alert("error");
+      console.log(res.e);
     }
   }
 
