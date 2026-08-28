@@ -38,7 +38,7 @@ const sendMessage = async (req, res) => {
     const formattedContent = chat.messages.map((msg) => {
       return { role: msg.role, parts: [{ text: msg.content }] };
     });
-
+    console.log(`API KEY: ${process.env.GEMINI_API_KEY}`);
     const apiResponse = await axios.post(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent`,
       { contents: formattedContent },
