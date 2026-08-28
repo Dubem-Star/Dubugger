@@ -26,7 +26,7 @@ const sendMessage = async (req, res) => {
     }
 
     // Send the prompt to Gemini API
-    const formattedContent = chat.map((msg) => {
+    const formattedContent = chat.messages.map((msg) => {
       return { role: msg.role, parts: [{ text: msg.content }] };
     });
 
