@@ -26,7 +26,7 @@ const sendMessage = async (req, res) => {
     } else {
       chat = await ChatHistory.create(
         {
-          chatId,
+          chatId: "anon_session_8f93a",
           messages: [{ role: "user", content: message }],
         },
 
