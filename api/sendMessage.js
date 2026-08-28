@@ -16,7 +16,7 @@ const sendMessage = async (req, res) => {
     // Get and Update the Chat History from Database (Prompt)
     let chat = await ChatHistory.findOne({ chatId: "anon_session_8f93a" });
     if (chat) {
-      await ChatHistory.findOneAndUpdate(
+      chat = await ChatHistory.findOneAndUpdate(
         { chatId: "anon_session_8f93a" },
         {
           $push: { messages: { role: "user", content: message } },

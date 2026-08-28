@@ -80,26 +80,6 @@ function Main(prop) {
             />
           </div>
 
-          {/* ************RESPONSE CARD******************** */}
-          {/* <div
-            className="w-full max-w-[600px] bg-cyan-500/[0.04] border border-cyan-500/20 rounded-xl p-4 hidden mb-4"
-            id="responseCard"
-          >
-            <div className="flex items-center gap-2 mb-2.5">
-              <i
-                className="ti ti-sparkles text-[15px] text-cyan-400"
-                aria-hidden="true"
-              ></i>
-              <span className="text-xs font-semibold text-cyan-300 tracking-wider uppercase">
-                Dubby found the issue
-              </span>
-            </div>
-            <div
-              className="text-[13px] text-slate-400 leading-relaxed font-mono"
-              id="responseBody"
-            ></div>
-          </div> */}
-
           <div
             className="w-full max-w-[600px] rounded-xl mb-5 transition-all"
             style={{
@@ -115,9 +95,7 @@ function Main(prop) {
               onInput={() => {
                 const msg = document.getElementById("msgInput").value.trim();
                 if (msg) {
-                  prop.setIsInputValue(true);
-                } else {
-                  prop.setIsInputValue(false);
+                  prop.setIsInputValue(msg);
                 }
               }}
             ></textarea>
