@@ -40,9 +40,14 @@ const sendMessage = async (req, res) => {
     });
 
     const apiResponse = await axios.post(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent`,
       { contents: formattedContent },
-      { headers: { "Content-Type": "application/json" } },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": process.env.GEMINI_API_KEY,
+        },
+      },
     );
 
     // Get and Update the Chat History from Database (Response)
