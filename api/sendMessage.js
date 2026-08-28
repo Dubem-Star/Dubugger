@@ -14,13 +14,22 @@ const sendMessage = async (req, res) => {
     const { message } = req.body;
 
     // Get and Update the Chat History from Database (Prompt)
-    const chat = await ChatHistory.findOne({ chatId: "anon_session_8f93a" });
+    let chat = await ChatHistory.findOne({ chatId: "anon_session_8f93a" });
     if (chat) {
       await ChatHistory.findOneAndUpdate(
         { chatId: "anon_session_8f93a" },
         {
           $push: { messages: { role: "user", content: message } },
         },
+        { new: true },
+      );
+    } else {
+      chat = await ChatHistory.create(
+        {
+          chatId,
+          messages: [{ role: "user", content: message }],
+        },
+
         { new: true },
       );
     }
