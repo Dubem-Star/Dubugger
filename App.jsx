@@ -26,11 +26,11 @@ function App() {
     const res = await response.json();
 
     if (res.data) {
-      alert(res.data);
       loadingBar.classList.remove("show");
       sendBtn.disabled = true;
       document.getElementById("msgInput").value = "";
       setIsInputValue(false);
+      alert(res.data);
     } else {
       alert("error");
     }
