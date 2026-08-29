@@ -35,8 +35,8 @@ function App() {
 
       const aiReply = res.data.messages.at(-1).content;
 
-      alert(res.data`User: ${isInputValue}....Model:${aiReply} `);
-      setIsInputValue(false);
+      alert(`User: ${isInputValue}....Model:${aiReply} `);
+      setIsInputValue("");
     } else {
       alert("error");
       console.log(res.e);

@@ -8,17 +8,21 @@ function Main(prop) {
     document.getElementById("msgInput").value = text;
     document.getElementById("msgInput").focus();
   }
-
-  document.getElementById("msgInput")
-    ? document
-        .getElementById("msgInput")
-        .addEventListener("keydown", function (e) {
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            prop.handleSend();
-          }
-        })
-    : null;
+  useEffect(() => {
+    document.getElementById("msgInput")
+      ? document
+          .getElementById("msgInput")
+          .addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              prop.handleSend();
+            }
+          })
+      : null;
+    return () => {
+      document.getElementById("msgInput").removeEventListener("keydown");
+    };
+  }, []);
 
   const actionWords = [
     "Which line is giving you a <span class='bg-[linear-gradient(90deg,#6feb9f,#7dfcae,#0ee9b6)] bg-clip-text text-transparent'>Headache?",
@@ -79,7 +83,7 @@ function Main(prop) {
               className="w-7 prompt-loader"
             />
           </div>
-
+          {/* ************TEXT AREA SECTION******************** */}
           <div
             className="w-full max-w-[600px] rounded-xl mb-5 transition-all"
             style={{
@@ -92,12 +96,7 @@ function Main(prop) {
               rows="3"
               className="w-full bg-transparent text-base text-slate-300 resize-none outline-none px-4 pt-4 pb-2 leading-relaxed placeholder:text-slate-600"
               placeholder="Ask Dubby..."
-              onInput={() => {
-                const msg = document.getElementById("msgInput").value.trim();
-                if (msg) {
-                  prop.setIsInputValue(msg);
-                }
-              }}
+              onChange={(e) => prop.setIsInputValue(e.target.value.trim())}
             ></textarea>
 
             <div className="flex items-center justify-between px-3 pb-3 pt-1">
@@ -114,6 +113,8 @@ function Main(prop) {
                   <span>Search the web</span>
                 </button>
               </div>
+
+              {/* ***************SUBMIT BUTTON***************** */}
               <div className="flex items-center gap-2">
                 <button
                   id="sendBtn"
