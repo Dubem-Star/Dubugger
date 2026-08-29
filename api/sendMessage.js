@@ -62,8 +62,9 @@ const sendMessage = async (req, res) => {
     res.status(200).json({ data: updatedChat });
     return;
   } catch (e) {
-    res.status(404).json({ data: false, e: e });
-    console.log(`error finding products: ${e}`);
+    res.status(500).json({ data: false, error: e.response.data || e.message });
+    console.log(`error sending request: ${e}`);
+    console.log(`message: ${e}`);
   }
 };
 

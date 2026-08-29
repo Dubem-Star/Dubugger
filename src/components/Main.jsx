@@ -36,11 +36,11 @@ function Main(prop) {
   return (
     <>
       <div className="min-h-[100vh] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.018)_0px,rgba(255,255,255,0.018)_1px,transparent_1px,transparent_8px),linear-gradient(135deg,#0d0f1a_0%,#111827_50%,#0d0f1a_100%)]  overflow-hidden flex flex-col font-sans">
-        {/* ************HEADER SECTION******************** */}
+        {/* ************NAVBAR SECTION******************** */}
         <div className="flex items-center justify-between px-5 py-3.5 border-b border-sky-400/20 bg-[rgba(13,15,26,0.8)]">
           <div className="flex items-center gap-2">
             <img
-              src="/dubugger_logo.png"
+              src="/logos/dubugger_logo_transparent.png"
               className="w-5 h-5 flex items-center justify-center"
             />
             <span className="text-base font-semibold text-slate-200 tracking-wide">
@@ -49,14 +49,14 @@ function Main(prop) {
           </div>
           <div className="flex gap-2">
             <img
-              src="/logout_icon.png"
+              src="/icons/sign-in_icon.png"
               title="sign-in"
               onClick={() => alert("coming soon.")}
               className="w-7 h-7 p-[6px] cursor-pointer rounded-full hover:bg-white/5"
             />
 
             <img
-              src="/sidebar_icon.png"
+              src="/icons/sidebar_icon.png"
               title="sidebar"
               onClick={() => alert("coming soon.")}
               className="w-7 h-7 p-[6px] cursor-pointer rounded-full hover:bg-white/5"
@@ -82,7 +82,7 @@ function Main(prop) {
             id="loadingBar"
           >
             <img
-              src="/dubugger_logo_loader.png"
+              src="/logos/dubugger_logo_filled.png"
               className="w-7 prompt-loader"
             />
           </div>
@@ -128,7 +128,11 @@ function Main(prop) {
                       "linear-gradient(90deg, #61eb96, #59d88a, #0ee9b6)",
                   }}
                 >
-                  <img src="/right-up_icon.png" className="w-5 h-5" />
+                  <img
+                    src="/icons/right-up_icon.png"
+                    id="sendBtnContent"
+                    className="w-5 h-5"
+                  />
                 </button>
               </div>
             </div>

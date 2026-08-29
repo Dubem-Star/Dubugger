@@ -7,13 +7,18 @@ function App() {
   const [count, setCount] = useState(0);
   const [isInputValue, setIsInputValue] = useState("");
 
+  {
+    /* ***************HANDLE SEND FUNCTION***************** */
+  }
   async function handleSend(value) {
     const loadingBar = document.getElementById("loadingBar");
-    const sendBtn = document.getElementById("sendBtn");
+    const sendBtnContent = document.getElementById("sendBtnContent");
     loadingBar.classList.add("show");
 
-    console.log(value);
-    // return;
+    sendBtnContent.src = `/icons/square_icon.png`;
+    sendBtnContent.classList.remove("w-5", "h-5");
+    sendBtnContent.classList.add("w-3", "h-3");
+
     const response = await fetch(
       "https://dubugger.vercel.app/api/sendMessage",
       {
@@ -32,10 +37,12 @@ function App() {
       document.getElementById("msgInput").value = "";
       const aiReply = res.data.messages.at(-1).content;
       alert(`User: ${value}....Model:${aiReply} `);
+      sendBtnContent.src = `/icons/right-up_icon.png`;
+      sendBtnContent.classList.remove("w-3", "h-3");
+      sendBtnContent.classList.add("w-5", "h-5");
       setIsInputValue("");
     } else {
-      alert("error");
-      console.log(res.e);
+      alert(res.error);
     }
   }
 
