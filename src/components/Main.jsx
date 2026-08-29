@@ -9,18 +9,21 @@ function Main(prop) {
     document.getElementById("msgInput").focus();
   }
   useEffect(() => {
-    document.getElementById("msgInput")
-      ? document
-          .getElementById("msgInput")
-          .addEventListener("keydown", function (e) {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              prop.handleSend();
-            }
-          })
-      : null;
+    const msgInput = document.getElementById("msgInput");
+
+    function submit(e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        prop.handleSend(e.target.value.trim());
+      }
+    }
+
+    if (msgInput) {
+      msgInput.addEventListener("keydown", submit);
+    }
+
     return () => {
-      document.getElementById("msgInput").removeEventListener("keydown");
+      if (msgInput) msgInput.removeEventListener("keydown", submit);
     };
   }, []);
 
@@ -118,7 +121,7 @@ function Main(prop) {
               <div className="flex items-center gap-2">
                 <button
                   id="sendBtn"
-                  onClick={() => prop.handleSend()}
+                  onClick={() => prop.handleSend(prop.isInputValue)}
                   className={`w-7 h-7 rounded-full flex items-center justify-center transition-opacity cursor-pointer ${prop.isInputValue ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}
                   style={{
                     background:
