@@ -42,7 +42,9 @@ function App() {
       sendBtnContent.classList.add("w-5", "h-5");
       setIsInputValue("");
     } else {
-      alert(res.error);
+      const errorMessage =
+        res.error?.message || res.error || "An unknown error occurred";
+      alert(errorMessage);
     }
   }
 

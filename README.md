@@ -1,16 +1,16 @@
-# React + Vite
+# Dubugger
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dubugger is an AI-powered debugging assistant built to help developers troubleshoot, explain, and resolve code errors instantly.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Error Breakdown: Translates cryptic stack traces and error codes into plain, actionable explanations.
+- Instant Fixes: Generates corrected code snippets and solutions on demand.
+- Root Cause Analysis: Explains why bugs happen so they can be avoided in future iterations.
+- Interactive UI: Features quick-action prompts, custom text animations, and a responsive dark-themed workspace.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Frontend: React, Tailwind CSS, Vite
+- Backend: Node.js, Express, Vercel Serverless Functions
+- Database & APIs: Mongoose/MongoDB, Axios, Google Gemini API (gemini-2.5-flash)
