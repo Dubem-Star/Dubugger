@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import TextTransition from "./TextTransition";
+import Chatbox from "./Chatbox";
+import InputBox from "./InputBox";
 
 function Main(prop) {
-  // const [isInputValue, setIsInputValue] = useState("");
-
   function fillQuick(text) {
     document.getElementById("msgInput").value = text;
     document.getElementById("msgInput").focus();
@@ -14,7 +15,9 @@ function Main(prop) {
     function submit(e) {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        prop.handleSend(e.target.value.trim());
+        if (e.target.value.trim()) {
+          prop.handleSend(e.target.value.trim());
+        }
       }
     }
 
@@ -35,7 +38,10 @@ function Main(prop) {
 
   return (
     <>
-      <div className="min-h-[100vh] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.018)_0px,rgba(255,255,255,0.018)_1px,transparent_1px,transparent_8px),linear-gradient(135deg,#0d0f1a_0%,#111827_50%,#0d0f1a_100%)]  overflow-hidden flex flex-col font-sans">
+      <div
+        id="outerContainer"
+        className="h-[100vh] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.018)_0px,rgba(255,255,255,0.018)_1px,transparent_1px,transparent_8px),linear-gradient(135deg,#0d0f1a_0%,#111827_50%,#0d0f1a_100%)]  overflow-hidden flex flex-col font-sans"
+      >
         {/* ************NAVBAR SECTION******************** */}
         <div className="flex items-center justify-between px-5 py-3.5 border-b border-sky-400/20 bg-[rgba(13,15,26,0.8)]">
           <div className="flex items-center gap-2">
@@ -63,126 +69,64 @@ function Main(prop) {
             />
           </div>
         </div>
-        {/* ************HEADER TEXT SECTION******************** */}
-        <div className="flex-1 flex flex-col items-center pt-10 justify-center px-6 pb-6">
-          <div className="relative">
-            <h1 className="text-3xl md:text-4xl font-bold text-white text-center leading-snug mb-3 md:mb-1.5 max-w-[480px] opacity-0">
-              Which line is giving you a Headache?
-            </h1>
-            <TextTransition words={actionWords} />
-          </div>
 
-          <p className="text-[13px] text-slate-500 text-center mb-8 leading-relaxed max-w-[360px]">
-            Paste your error below. Dubby will explain it, fix it, and make sure
-            it never haunts you again.
-          </p>
-          {/* ************LOADING STATE******************** */}
-          <div
-            className="w-full max-w-[600px] mb-4  loading-bar"
-            id="loadingBar"
-          >
-            <img
-              src="/logos/dubugger_logo_filled.png"
-              className="w-7 prompt-loader"
-            />
-          </div>
-          {/* ************TEXT AREA SECTION******************** */}
-          <div
-            className="w-full max-w-[600px] rounded-xl mb-5 transition-all"
-            style={{
-              background: "rgba(255,255,255,0.03)",
-              border: "0.5px solid rgba(0, 188, 255, 0.2)",
-            }}
-          >
-            <textarea
-              id="msgInput"
-              rows="3"
-              className="w-full bg-transparent text-base text-slate-300 resize-none outline-none px-4 pt-4 pb-2 leading-relaxed placeholder:text-slate-600"
-              placeholder="Ask Dubby..."
-              onChange={(e) => prop.setIsInputValue(e.target.value.trim())}
-            ></textarea>
+        <AnimatePresence mode="wait">
+          {!prop.isSubmitted ? (
+            <>
+              {/* ************HEADER TEXT SECTION******************** */}
+              <motion.div
+                key="intro"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="flex-1 flex flex-col items-center pt-10 justify-center px-6 pb-6 "
+              >
+                <div className="relative">
+                  <h1 className="text-3xl md:text-4xl font-bold text-white text-center leading-snug mb-3 md:mb-1.5 max-w-[480px] opacity-0">
+                    Which line is giving you a Headache?
+                  </h1>
+                  <TextTransition words={actionWords} />
+                </div>
 
-            <div className="flex items-center justify-between px-3 pb-3 pt-1">
-              <div className="flex items-center gap-2">
-                <button className="flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-300 transition-colors px-2 py-1 rounded-md hover:bg-white/5">
-                  <i className="ti ti-paperclip text-sm"></i>
-                </button>
-                <button className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-slate-200 transition-colors px-2 py-1 rounded-md hover:bg-white/5">
-                  <i className="ti ti-photo text-sm"></i>
-                  <span>Create an image</span>
-                </button>
-                <button className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-slate-200 transition-colors px-2 py-1 rounded-md hover:bg-white/5">
-                  <i className="ti ti-world text-sm"></i>
-                  <span>Search the web</span>
-                </button>
-              </div>
-
-              {/* ***************SUBMIT BUTTON***************** */}
-              <div className="flex items-center gap-2">
-                <button
-                  id="sendBtn"
-                  onClick={() => prop.handleSend(prop.isInputValue)}
-                  className={`w-7 h-7 rounded-full flex items-center justify-center transition-opacity cursor-pointer ${prop.isInputValue ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}
-                  style={{
-                    background:
-                      "linear-gradient(90deg, #61eb96, #59d88a, #0ee9b6)",
-                  }}
+                <p className="text-[13px] text-slate-500 text-center mb-8 leading-relaxed max-w-[360px]">
+                  Paste your error below. Dubby will explain it, fix it, and
+                  make sure it never haunts you again.
+                </p>
+                {/* ************LOADING STATE******************** */}
+                <div
+                  className="w-full max-w-[600px] mb-4  loading-bar"
+                  id="loadingBar"
                 >
                   <img
-                    src="/icons/right-up_icon.png"
-                    id="sendBtnContent"
-                    className="w-5 h-5"
+                    src="/logos/dubugger_logo_filled.png"
+                    className="w-7 prompt-loader"
                   />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2.5 w-full max-w-[600px]">
-            <div
-              className="bg-white/[0.03] border border-white/[0.07] rounded-[10px] p-3 cursor-pointer transition-all hover:bg-cyan-500/[0.04] hover:border-cyan-500/30"
-              onClick={() => fillQuick("Explain this error")}
+                </div>
+                {/* ************TEXT AREA SECTION******************** */}
+                <InputBox
+                  isInputValue={prop.isInputValue}
+                  setIsInputValue={prop.setIsInputValue}
+                  handleSend={prop.handleSend}
+                />
+              </motion.div>
+            </>
+          ) : (
+            <motion.div
+              key="chat"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
             >
-              <div className="text-base mb-1.5 text-violet-400">
-                <i className="ti ti-zoom-question" aria-hidden="true"></i>
-              </div>
-              <div className="text-xs font-semibold text-slate-200 mb-0.5">
-                Explain error
-              </div>
-              <div className="text-[11px] text-slate-600 leading-tight">
-                Break it down in plain English
-              </div>
-            </div>
-            <div
-              className="bg-white/[0.03] border border-white/[0.07] rounded-[10px] p-3 cursor-pointer transition-all hover:bg-cyan-500/[0.04] hover:border-cyan-500/30"
-              onClick={() => fillQuick("Fix this bug for me")}
-            >
-              <div className="text-base mb-1.5 text-violet-400">
-                <i className="ti ti-tool" aria-hidden="true"></i>
-              </div>
-              <div className="text-xs font-semibold text-slate-200 mb-0.5">
-                Fix the bug
-              </div>
-              <div className="text-[11px] text-slate-600 leading-tight">
-                Get working code instantly
-              </div>
-            </div>
-            <div
-              className="bg-white/[0.03] border border-white/[0.07] rounded-[10px] p-3 cursor-pointer transition-all hover:bg-cyan-500/[0.04] hover:border-cyan-500/30"
-              onClick={() => fillQuick("Why does this keep happening?")}
-            >
-              <div className="text-base mb-1.5 text-violet-400">
-                <i className="ti ti-refresh-alert" aria-hidden="true"></i>
-              </div>
-              <div className="text-xs font-semibold text-slate-200 mb-0.5">
-                Why it repeats
-              </div>
-              <div className="text-[11px] text-slate-600 leading-tight">
-                Understand the root cause
-              </div>
-            </div>
-          </div>
-        </div>
+              <Chatbox
+                isInputValue={prop.isInputValue}
+                setIsInputValue={prop.setIsInputValue}
+                handleSend={prop.handleSend}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
