@@ -43,7 +43,10 @@ function Main(prop) {
         className="h-[100vh] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.018)_0px,rgba(255,255,255,0.018)_1px,transparent_1px,transparent_8px),linear-gradient(135deg,#0d0f1a_0%,#111827_50%,#0d0f1a_100%)]  overflow-hidden flex flex-col font-sans "
       >
         {/* ************NAVBAR SECTION******************** */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-sky-400/20 bg-[rgba(13,15,26,0.8)] sticky top-0">
+        <div
+          id="navbar"
+          className="flex items-center justify-between px-5 py-3.5 border-b border-sky-400/20 bg-[rgba(13,15,26,0.8)] sticky top-0"
+        >
           <div className="flex items-center gap-2">
             <img
               src="/logos/dubugger_logo_transparent.png"

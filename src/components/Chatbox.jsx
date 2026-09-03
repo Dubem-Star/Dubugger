@@ -3,12 +3,16 @@ import { useRef, useEffect, useState } from "react";
 function Chatbox(prop) {
   const [inputWidth, setInputWidth] = useState(null);
   const chatCont = useRef(null);
+  const [navHeight, setNavHeight] = useState(0);
 
   useEffect(() => {
     const outerWrapper = document.getElementById("outerContainer");
     const scrollableContainer = document.getElementById("innerContainer");
-
+    const navbar = document.getElementById("navbar");
+    setNavHeight(navbar ? navbar.offsetHeight : 0);
     if (chatCont.current) {
+      console.log(chatCont.current.offsetWidth);
+      console.log(chatCont.current.getBoundingClientRect().width);
       setInputWidth(chatCont.current.offsetWidth);
     }
 
@@ -24,11 +28,16 @@ function Chatbox(prop) {
 
   return (
     <>
-      <div className="flex-1 flex-col  w-full  max-w-4xl mx-auto px-5 md:px-30 pt-2 pb-8 overflow-hidden relative">
+      <div
+        className={`flex flex-1  h-[calc(100vh-${navHeight}px)]  w-full  max-w-4xl mx-auto px-5 md:px-30 pt-2 pb-8 overflow-hidden relative`}
+      >
         {/* Welcome / conversation area */}
+        {/* <div>
+          
+        </div> */}
         <div
           ref={chatCont}
-          className="flex h-[85%] relative overflow-y-auto flex-col gap-6 mb-10 [scrollbar-width:none][-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mb-10"
+          className="flex h-[95%] relative overflow-y-auto flex-col gap-6 mb-10 [scrollbar-width:none][-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mb-10"
           id="innerContainer"
         >
           {/* User message */}
@@ -129,13 +138,14 @@ function Chatbox(prop) {
             <span className="block text-[10px] text-slate-600 mt-1">Dubby</span>
           </div>
         </div>
+
+        <InputBox
+          isInputValue={prop.isInputValue}
+          setIsInputValue={prop.setIsInputValue}
+          handleSend={prop.handleSend}
+          inputWidth={inputWidth}
+        />
       </div>
-      <InputBox
-        isInputValue={prop.isInputValue}
-        setIsInputValue={prop.setIsInputValue}
-        handleSend={prop.handleSend}
-        inputWidth={inputWidth}
-      />
     </>
   );
 }
