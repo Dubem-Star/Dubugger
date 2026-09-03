@@ -24,7 +24,7 @@ function Chatbox(prop) {
 
   return (
     <>
-      <div className="flex-1 flex-col  w-full h-[100vh] max-w-4xl mx-auto px-5 md:px-30 pt-2 pb-8 overflow-hidden">
+      <div className="flex-1 flex-col  w-full h-[100vh] max-w-4xl mx-auto px-5 md:px-30 pt-2 pb-8 overflow-hidden relative">
         {/* Welcome / conversation area */}
         <div
           ref={chatCont}
@@ -129,14 +129,13 @@ function Chatbox(prop) {
             <span className="block text-[10px] text-slate-600 mt-1">Dubby</span>
           </div>
         </div>
-
-        <InputBox
-          isInputValue={prop.isInputValue}
-          setIsInputValue={prop.setIsInputValue}
-          handleSend={prop.handleSend}
-          inputWidth={inputWidth}
-        />
       </div>
+      <InputBox
+        isInputValue={prop.isInputValue}
+        setIsInputValue={prop.setIsInputValue}
+        handleSend={prop.handleSend}
+        inputWidth={inputWidth}
+      />
     </>
   );
 }

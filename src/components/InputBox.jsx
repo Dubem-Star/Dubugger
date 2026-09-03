@@ -1,7 +1,7 @@
 function InputBox(prop) {
   return (
     <div
-      className={` w-full max-w-[600px] rounded-xl mb-5 transition-all mx-auto ${prop.inputWidth ? `max-w-[${prop.inputWidth}px] sticky bottom-[40px] flex justify-center items-center` : ""}  bg-slate-950/70 backdrop-blur-sm
+      className={`  max-w-[600px] rounded-xl mb-5 transition-all ${prop.inputWidth ? `max-w-[${prop.inputWidth}px] sticky bottom-[20px] flex justify-center items-center mx-5 md:mx-30` : ""}  bg-slate-950/70 backdrop-blur-sm
     shadow-[0_10px_30px_rgba(15,23,42,0.7)]`}
       style={{
         background: prop.inputWidth
