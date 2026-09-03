@@ -3,23 +3,19 @@ import { useRef, useEffect, useState } from "react";
 function Chatbox(prop) {
   const [inputWidth, setInputWidth] = useState(null);
   const chatCont = useRef(null);
+
   useEffect(() => {
+    const outerWrapper = document.getElementById("outerContainer");
+    const scrollableContainer = document.getElementById("innerContainer");
+
     if (chatCont.current) {
       setInputWidth(chatCont.current.offsetWidth);
     }
 
-    const outerWrapper = document.getElementById("outerContainer");
-    const scrollableContainer = document.getElementById("innerContainer");
-
-    console.log(outerWrapper);
-    console.log(scrollableContainer);
     outerWrapper.addEventListener(
       "wheel",
       (e) => {
-        // Prevent the default window or parent behavior
         e.preventDefault();
-
-        // Pass the vertical scroll delta down to the scrollable container
         scrollableContainer.scrollTop += e.deltaY;
       },
       { passive: false },
@@ -28,10 +24,7 @@ function Chatbox(prop) {
 
   return (
     <>
-      <div
-        className="flex-1 flex-col  w-full h-[100vh] max-w-4xl mx-auto px-7 md:px-30 pt-2 pb-8 overflow-hidden"
-        // id="outerContainer"
-      >
+      <div className="flex-1 flex-col  w-full h-[100vh] max-w-4xl mx-auto px-5 md:px-30 pt-2 pb-8 overflow-hidden">
         {/* Welcome / conversation area */}
         <div
           ref={chatCont}

@@ -40,10 +40,10 @@ function Main(prop) {
     <>
       <div
         id="outerContainer"
-        className="h-[100vh] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.018)_0px,rgba(255,255,255,0.018)_1px,transparent_1px,transparent_8px),linear-gradient(135deg,#0d0f1a_0%,#111827_50%,#0d0f1a_100%)]  overflow-hidden flex flex-col font-sans"
+        className="h-[100vh] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.018)_0px,rgba(255,255,255,0.018)_1px,transparent_1px,transparent_8px),linear-gradient(135deg,#0d0f1a_0%,#111827_50%,#0d0f1a_100%)]  overflow-hidden flex flex-col font-sans sticky top-0"
       >
         {/* ************NAVBAR SECTION******************** */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-sky-400/20 bg-[rgba(13,15,26,0.8)]">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-sky-400/20 bg-[rgba(13,15,26,0.8)] sticky top-0">
           <div className="flex items-center gap-2">
             <img
               src="/logos/dubugger_logo_transparent.png"
@@ -82,33 +82,35 @@ function Main(prop) {
                 transition={{ duration: 0.2 }}
                 className="flex-1 flex flex-col items-center pt-10 justify-center px-6 pb-6 "
               >
-                <div className="relative">
-                  <h1 className="text-3xl md:text-4xl font-bold text-white text-center leading-snug mb-3 md:mb-1.5 max-w-[480px] opacity-0">
-                    Which line is giving you a Headache?
-                  </h1>
-                  <TextTransition words={actionWords} />
-                </div>
+                <div className="mt-[-50px] md:mt-[0]">
+                  <div className="relative">
+                    <h1 className="text-3xl md:text-4xl font-bold text-white text-center leading-snug mb-3 md:mb-1.5 max-w-[480px] opacity-0">
+                      Which line is giving you a Headache?
+                    </h1>
+                    <TextTransition words={actionWords} />
+                  </div>
 
-                <p className="text-[13px] text-slate-500 text-center mb-8 leading-relaxed max-w-[360px]">
-                  Paste your error below. Dubby will explain it, fix it, and
-                  make sure it never haunts you again.
-                </p>
-                {/* ************LOADING STATE******************** */}
-                <div
-                  className="w-full max-w-[600px] mb-4  loading-bar"
-                  id="loadingBar"
-                >
-                  <img
-                    src="/logos/dubugger_logo_filled.png"
-                    className="w-7 prompt-loader"
+                  <p className="text-[13px] text-slate-500 text-center mb-8 leading-relaxed max-w-[360px]">
+                    Paste your error below. Dubby will explain it, fix it, and
+                    make sure it never haunts you again.
+                  </p>
+                  {/* ************LOADING STATE******************** */}
+                  <div
+                    className="w-full max-w-[600px] mb-4  loading-bar"
+                    id="loadingBar"
+                  >
+                    <img
+                      src="/logos/dubugger_logo_filled.png"
+                      className="w-7 prompt-loader"
+                    />
+                  </div>
+                  {/* ************TEXT AREA SECTION******************** */}
+                  <InputBox
+                    isInputValue={prop.isInputValue}
+                    setIsInputValue={prop.setIsInputValue}
+                    handleSend={prop.handleSend}
                   />
                 </div>
-                {/* ************TEXT AREA SECTION******************** */}
-                <InputBox
-                  isInputValue={prop.isInputValue}
-                  setIsInputValue={prop.setIsInputValue}
-                  handleSend={prop.handleSend}
-                />
               </motion.div>
             </>
           ) : (
