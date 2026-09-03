@@ -24,7 +24,7 @@ function Chatbox(prop) {
 
   return (
     <>
-      <div className="flex-1 flex-col  w-full h-[100vh] max-w-4xl mx-auto px-5 md:px-30 pt-2 pb-8 overflow-hidden relative">
+      <div className="flex-1 flex-col  w-full  max-w-4xl mx-auto px-5 md:px-30 pt-2 pb-8 overflow-hidden relative">
         {/* Welcome / conversation area */}
         <div
           ref={chatCont}
