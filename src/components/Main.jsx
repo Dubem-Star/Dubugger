@@ -82,7 +82,7 @@ function Main(prop) {
                 transition={{ duration: 0.2 }}
                 className="flex-1 flex flex-col items-center pt-10 justify-center px-6 pb-6 "
               >
-                <div className="mt-[-50px] md:mt-[0]">
+                <div className="mt-[-90px] md:mt-[-50px] lg:mt-[0]">
                   <div className="relative">
                     <h1 className="text-3xl md:text-4xl font-bold text-white text-center leading-snug mb-3 md:mb-1.5 max-w-[480px] opacity-0">
                       Which line is giving you a Headache?
