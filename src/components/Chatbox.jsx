@@ -56,9 +56,16 @@ function Chatbox(prop) {
                     <div
                       className={`rounded-2xl flex justify-center ${msg.role === "user" ? "rounded-tr-sm bg-sky-400/10 border border-sky-400/20" : "rounded-tl-sm border border-white/5 bg-white/[0.025]"} p-3 `}
                     >
-                      <p className="text-sm text-slate-200  leading-relaxed">
-                        {msg.content}
-                      </p>
+                      {msg.role === "user" ? (
+                        <p className="text-sm text-slate-200  leading-relaxed">
+                          {msg.content}
+                        </p>
+                      ) : (
+                        <p
+                          className="text-sm text-slate-200  leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: msg.content }}
+                        ></p>
+                      )}
                     </div>
 
                     <span className="block text-[10px] text-slate-600 text-right mt-1">

@@ -62,8 +62,7 @@ function App() {
         { role: "model", content: convertedReply },
       ]);
     } else {
-      const errorMessage =
-        res.error?.message || res.error || "An unknown error occurred";
+      const errorMessage = res.error;
       alert(errorMessage);
     }
   }

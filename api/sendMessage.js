@@ -51,7 +51,7 @@ const sendMessage = async (req, res) => {
       apiResponse.data.candidates?.[0]?.content?.parts?.[0]?.text ||
       "No response generated.";
 
-    console.log(apiResponse.data.candidates?.[0]?.content?.parts?.[0]?.texts);
+    console.log(apiResponse.data.candidates?.[0]?.content?.parts?.[0]?.text);
 
     const updatedChat = await ChatHistory.findOneAndUpdate(
       { chatId: "anon_session_8f93a" },
@@ -65,9 +65,9 @@ const sendMessage = async (req, res) => {
     res.status(200).json({ data: updatedChat });
     return;
   } catch (e) {
-    res.status(500).json({ data: false, error: e.response.data || e.message });
-    console.log(`error sending request: ${e}`);
-    console.log(`message: ${e}`);
+    res.status(500).json({ data: false, error: e || e.message });
+    console.error("Status:", e.response?.status);
+    console.error("Provider Response Data:", e.response?.data);
   }
 };
 
