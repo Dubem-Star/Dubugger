@@ -1,9 +1,20 @@
 function InputBox(prop) {
-  console.log(prop.inputWidth);
   return (
     <div
-      className={`${prop.inputWidth ? "px-5 md:px-30 absolute left-[50%] translate-x-[-50%] bottom-[10px] w-full" : ""}`}
+      className={`${prop.inputWidth ? "flex flex-col px-5 md:px-0 absolute left-[50%] translate-x-[-50%] bottom-[10px] flex justify-center w-full" : ""}`}
     >
+      {prop.inputWidth ? (
+        <div
+          className="w-full flex jusify-start  mb-4  loading-bar"
+          id="loadingBar"
+        >
+          <img
+            src="/logos/dubugger_logo_filled.png"
+            className="w-7 prompt-loader"
+          />
+        </div>
+      ) : null}
+
       <div
         className={`  max-w-[600px] rounded-xl mb-2 transition-all ${prop.inputWidth ? `  flex justify-center items-center   w-full` : ""}  bg-slate-950/70 backdrop-blur-sm
     shadow-[0_10px_30px_rgba(15,23,42,0.7)]`}

@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^1.20.0",
     "framer-motion": "^13.1.1",
+    "marked": "^18.0.12",
     "mongoose": "^9.9.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

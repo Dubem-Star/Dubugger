@@ -16,6 +16,7 @@ function Main(prop) {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         if (e.target.value.trim()) {
+          prop.setIsInputValue(e.target.value.trim());
           prop.handleSend(e.target.value.trim());
         }
       }
@@ -40,14 +41,20 @@ function Main(prop) {
     <>
       <div
         id="outerContainer"
-        className="h-[100vh] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.018)_0px,rgba(255,255,255,0.018)_1px,transparent_1px,transparent_8px),linear-gradient(135deg,#0d0f1a_0%,#111827_50%,#0d0f1a_100%)]  overflow-hidden flex flex-col font-sans "
+        className="h-[100dvh] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.018)_0px,rgba(255,255,255,0.018)_1px,transparent_1px,transparent_8px),linear-gradient(135deg,#0d0f1a_0%,#111827_50%,#0d0f1a_100%)]  overflow-hidden flex flex-col font-sans "
       >
         {/* ************NAVBAR SECTION******************** */}
         <div
           id="navbar"
           className="flex items-center justify-between px-5 py-3.5 border-b border-sky-400/20 bg-[rgba(13,15,26,0.8)] sticky top-0"
         >
-          <div className="flex items-center gap-2">
+          <div
+            onClick={() => {
+              prop.setIsSubmitted(false);
+              prop.setMessages([]);
+            }}
+            className="flex items-center gap-2 cursor-pointer"
+          >
             <img
               src="/logos/dubugger_logo_transparent.png"
               className="w-5 h-5 flex items-center justify-center"
@@ -93,7 +100,7 @@ function Main(prop) {
                     <TextTransition words={actionWords} />
                   </div>
 
-                  <p className="text-[13px] text-slate-500 text-center mb-8 leading-relaxed max-w-[360px]">
+                  <p className="text-[13px] text-slate-500 text-center mb-8 mx-auto leading-relaxed max-w-[360px]">
                     Paste your error below. Dubby will explain it, fix it, and
                     make sure it never haunts you again.
                   </p>
@@ -128,6 +135,8 @@ function Main(prop) {
                 isInputValue={prop.isInputValue}
                 setIsInputValue={prop.setIsInputValue}
                 handleSend={prop.handleSend}
+                messages={prop.messages}
+                setMessages={prop.setMessages}
               />
             </motion.div>
           )}
