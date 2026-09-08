@@ -14,8 +14,9 @@ Dubugger is an AI-powered debugging assistant built to help developers troublesh
 - Frontend: React, Tailwind CSS, Vite
 - Backend: Node.js, Express, Vercel Serverless Functions
 - Database & APIs: Mongoose/MongoDB, Axios, Google Gemini API (gemini-2.5-flash)
-
-<p align="center" style="margin-top: 50px;">
+<br>
+<br>
+<p align="center" >
   <img
     width="531"
     height="273"
