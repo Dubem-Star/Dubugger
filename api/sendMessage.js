@@ -50,6 +50,9 @@ const sendMessage = async (req, res) => {
     const aiReply =
       apiResponse.data.candidates?.[0]?.content?.parts?.[0]?.text ||
       "No response generated.";
+
+    console.log(apiResponse.data.candidates?.[0]?.content?.parts?.[0]?.texts);
+
     const updatedChat = await ChatHistory.findOneAndUpdate(
       { chatId: "anon_session_8f93a" },
       {
