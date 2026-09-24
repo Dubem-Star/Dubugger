@@ -1,4 +1,31 @@
+import { useEffect, useState } from "react";
+
 function InputBox(prop) {
+  const [box, setBox] = useState(null);
+  const [inputHeight, setInputHeight] = useState(null);
+
+  function handleInputKeyDown(e) {
+    const input = e.currentTarget;
+    const value = input.textContent.trim();
+    prop.setIsInputValue(e.currentTarget.textContent.trim());
+    if (e.currentTarget.offsetHeight !== inputHeight) {
+      document.getElementById("sendBtnCont").classList.add("self-end");
+    } else {
+      document.getElementById("sendBtnCont").classList.remove("self-end");
+    }
+
+    if (!value) {
+      input.textContent = "";
+    }
+  }
+
+  useEffect(() => {
+    setBox(document.getElementById("box").offsetWidth);
+    const inputHeight = document.getElementById("msgInput").offsetHeight;
+    setInputHeight(inputHeight);
+    return () => {};
+  }, []);
+
   return (
     <div
       className={`${prop.inputWidth ? "flex flex-col px-5 md:px-0 absolute left-[50%] translate-x-[-50%] bottom-[10px] flex justify-center w-full" : ""}`}
@@ -16,7 +43,7 @@ function InputBox(prop) {
       ) : null}
 
       <div
-        className={`  max-w-[600px] rounded-xl mb-2 transition-all ${prop.inputWidth ? `  flex justify-center items-center   w-full` : ""}  bg-slate-950/70 backdrop-blur-sm
+        className={` flex justify-center items-center  ${!prop.inputWidth ? " w-[390px] md:w-[500px]" : ""} rounded-xl mb-2 transition-all  py-2 ${prop.inputWidth ? `    w-full` : ""}  bg-slate-950/70 backdrop-blur-sm
     shadow-[0_10px_30px_rgba(15,23,42,0.7)]`}
         style={{
           background: prop.inputWidth
@@ -25,33 +52,23 @@ function InputBox(prop) {
           border: "0.5px solid rgba(0, 188, 255, 0.2)",
         }}
       >
-        <textarea
-          id="msgInput"
-          row={prop.inputWidth ? "3" : "1"}
-          className="w-full bg-transparent text-base text-slate-300 resize-none h-auto outline-none px-4 pt-4 pb-2 leading-relaxed placeholder:text-slate-600"
-          placeholder="Ask Dubby..."
-          onChange={(e) => prop.setIsInputValue(e.target.value.trim())}
-        ></textarea>
+        {/* {contentEditable textarea} */}
+        <div className="flex-1 overscroll-none min-w-0" id="box">
+          <div
+            contentEditable="true"
+            placeholder="Ask Dubby..."
+            onInput={(e) => handleInputKeyDown(e)}
+            className={`center-input overscroll-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden w-full min-w-0 overflow-y-auto min-h-[24px] max-h-[100px] bg-transparent text-base text-slate-300 resize-none  outline-none px-4 pt-2 pb-2 leading-relaxed placeholder:text-slate-600 whitespace-pre-wrap break-words`}
+            id="msgInput"
+          ></div>
+        </div>
 
-        <div className="flex items-center justify-between px-3 pb-3 pt-1">
-          {!prop.inputWidth ? (
-            <div className="flex items-center gap-2">
-              <button className="flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-300 transition-colors px-2 py-1 rounded-md hover:bg-white/5">
-                <i className="ti ti-paperclip text-sm"></i>
-              </button>
-              <button className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-slate-200 transition-colors px-2 py-1 rounded-md hover:bg-white/5">
-                <i className="ti ti-photo text-sm"></i>
-                <span>Create an image</span>
-              </button>
-              <button className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-slate-200 transition-colors px-2 py-1 rounded-md hover:bg-white/5">
-                <i className="ti ti-world text-sm"></i>
-                <span>Search the web</span>
-              </button>
-            </div>
-          ) : null}
-
+        <div
+          className="flex items-center justify-between  px-3 py-1"
+          id="sendBtnCont"
+        >
           {/* ***************SUBMIT BUTTON***************** */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center  gap-2 flex-shrink-0">
             <button
               id="sendBtn"
               onClick={() => prop.handleSend(prop.isInputValue)}

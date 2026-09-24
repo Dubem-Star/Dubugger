@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { marked } from "marked";
 import "./App.css";
 import Main from "./src/components/Main";
 import Chatbox from "./src/components/Chatbox";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [enterKey, setEnterKey] = useState("home");
   const [isInputValue, setIsInputValue] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -31,7 +31,7 @@ function App() {
         top: innerContainer.scrollHeight,
         behavior: "smooth",
       });
-      msgInput.value = "";
+      msgInput.textContent = "";
     }
 
     const response = await fetch(
@@ -62,10 +62,35 @@ function App() {
         { role: "model", content: convertedReply },
       ]);
     } else {
-      const errorMessage = res.error;
-      alert(errorMessage);
+      alert(res.error || "An error occurred while sending the message.");
+      console.log(res.error);
     }
   }
+
+  {
+    /* ***************HANDLE ENTER KEY SEND FUNCTION***************** */
+  }
+  useEffect(() => {
+    const msgInput = document.getElementById("msgInput");
+
+    function submit(e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        if (e.target.textContent.trim()) {
+          setIsInputValue(e.target.textContent.trim());
+          handleSend(e.target.textContent.trim());
+        }
+      }
+    }
+
+    if (msgInput) {
+      msgInput.addEventListener("keydown", submit);
+    }
+
+    return () => {
+      if (msgInput) msgInput.removeEventListener("keydown", submit);
+    };
+  }, [enterKey]);
 
   return (
     <>
@@ -77,6 +102,8 @@ function App() {
         isSubmitted={isSubmitted}
         messages={messages}
         setMessages={setMessages}
+        enterKey={enterKey}
+        setEnterKey={setEnterKey}
       />
     </>
   );

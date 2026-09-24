@@ -3,6 +3,8 @@ import setCors from "./cors.js";
 import { ChatHistory } from "../models.js";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+let formattedContent = [];
+
 const sendMessage = async (req, res) => {
   try {
     setCors(res);
@@ -30,8 +32,8 @@ const sendMessage = async (req, res) => {
       });
     }
 
-    // Send the prompt to Gemini API
-    const formattedContent = chat.messages.map((msg) => {
+    // Send the message to Gemini API
+    formattedContent = chat.messages.map((msg) => {
       return { role: msg.role, parts: [{ text: msg.content }] };
     });
     console.log(`API KEY: ${process.env.GEMINI_API_KEY}`);
@@ -51,8 +53,6 @@ const sendMessage = async (req, res) => {
       apiResponse.data.candidates?.[0]?.content?.parts?.[0]?.text ||
       "No response generated.";
 
-    console.log(apiResponse.data.candidates?.[0]?.content?.parts?.[0]?.text);
-
     const updatedChat = await ChatHistory.findOneAndUpdate(
       { chatId: "anon_session_8f93a" },
       {
@@ -65,9 +65,45 @@ const sendMessage = async (req, res) => {
     res.status(200).json({ data: updatedChat });
     return;
   } catch (e) {
-    res.status(500).json({ data: false, error: e || e.message });
-    console.error("Status:", e.response?.status);
-    console.error("Provider Response Data:", e.response?.data);
+    if (e.response?.status === 429 || e.response?.status === 503) {
+      try {
+        // Send the message to ChatGPT API as a fallback
+        const apiResponse = await axios.post(
+          `https://api.openai.com/v1/responses`,
+          {
+            model: "gpt-5",
+            input: formattedContent,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+            },
+          },
+        );
+        // Get and Update the Chat History from Database (Response)
+        const aiReply =
+          apiResponse.data.output_text || "No response generated.";
+
+        const updatedChat = await ChatHistory.findOneAndUpdate(
+          { chatId: "anon_session_8f93a" },
+          {
+            $push: { messages: { role: "model", content: aiReply } },
+          },
+          { new: true },
+        );
+        // Send final data to frontend
+        res.status(200).json({ data: updatedChat });
+      } catch (e) {
+        let error = "error";
+        if (e.response?.status === 429 || e.response?.status === 503) {
+          error = "The server is currently overloaded. Please try again later.";
+        }
+        res.status(500).json({ data: false, error: error });
+        console.error("Status:", e.response?.status);
+        console.error("Provider Response Data:", e.response?.data);
+      }
+    }
   }
 };
 

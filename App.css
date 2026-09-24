@@ -102,3 +102,9 @@ body,
   opacity: 1;
   margin-bottom: 16px;
 }
+
+.center-input:empty::before {
+  content: attr(placeholder);
+  color: #aaaaaa9c;
+  pointer-events: none; /* Makes it clickable like a real placeholder */
+}

@@ -9,27 +9,6 @@ function Main(prop) {
     document.getElementById("msgInput").value = text;
     document.getElementById("msgInput").focus();
   }
-  useEffect(() => {
-    const msgInput = document.getElementById("msgInput");
-
-    function submit(e) {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        if (e.target.value.trim()) {
-          prop.setIsInputValue(e.target.value.trim());
-          prop.handleSend(e.target.value.trim());
-        }
-      }
-    }
-
-    if (msgInput) {
-      msgInput.addEventListener("keydown", submit);
-    }
-
-    return () => {
-      if (msgInput) msgInput.removeEventListener("keydown", submit);
-    };
-  }, []);
 
   const actionWords = [
     "Which line is giving you a <span class='bg-[linear-gradient(90deg,#6feb9f,#7dfcae,#0ee9b6)] bg-clip-text text-transparent'>Headache?",
@@ -100,7 +79,7 @@ function Main(prop) {
                     <TextTransition words={actionWords} />
                   </div>
 
-                  <p className="text-[13px] text-slate-500 text-center mb-8 mx-auto leading-relaxed max-w-[360px]">
+                  <p className="text-[13px] text-slate-500 text-center mb-8 md:mt-5 mx-auto leading-relaxed max-w-[360px]">
                     Paste your error below. Dubby will explain it, fix it, and
                     make sure it never haunts you again.
                   </p>
@@ -137,6 +116,8 @@ function Main(prop) {
                 handleSend={prop.handleSend}
                 messages={prop.messages}
                 setMessages={prop.setMessages}
+                enterKey={prop.enterKey}
+                setEnterKey={prop.setEnterKey}
               />
             </motion.div>
           )}

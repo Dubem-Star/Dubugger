@@ -6,24 +6,53 @@ function Chatbox(prop) {
   const chatCont = useRef(null);
   const [navHeight, setNavHeight] = useState(0);
 
+  // useEffect(() => {
+  //   const msgInput = document.getElementById("msgInput");
+
+  //   function submit(e) {
+  //     if (e.key === "Enter" && !e.shiftKey) {
+  //       e.preventDefault();
+  //       if (e.target.textContent.trim()) {
+  //         prop.setIsInputValue(e.target.textContent.trim());
+  //         prop.handleSend(e.target.textContent.trim());
+  //       }
+  //     }
+  //   }
+
+  //   if (msgInput) {
+  //     msgInput.addEventListener("keydown", submit);
+  //   }
+
+  //   return () => {
+  //     if (msgInput) msgInput.removeEventListener("keydown", submit);
+  //   };
+  // }, []);
+
   useEffect(() => {
     const outerWrapper = document.getElementById("outerContainer");
     const scrollableContainer = document.getElementById("innerContainer");
     const navbar = document.getElementById("navbar");
     setNavHeight(navbar ? navbar.offsetHeight : 0);
     if (chatCont.current) {
-      setInputWidth(chatCont.current.offsetWidth);
+      setInputWidth(true);
     }
 
     outerWrapper.addEventListener(
       "wheel",
       (e) => {
+        if (e.target.closest("#msgInput")) return;
         e.preventDefault();
         scrollableContainer.scrollTop += e.deltaY;
       },
       { passive: false },
     );
+
+    prop.setEnterKey("chatbox");
   }, []);
+
+  useEffect(() => {
+    console.log(inputWidth);
+  }, [inputWidth]);
 
   useEffect(() => {
     const innerContainer = document.getElementById("innerContainer");
@@ -36,7 +65,7 @@ function Chatbox(prop) {
   return (
     <>
       <div
-        className={`flex flex-1 mx-auto h-[calc(100dvh-${navHeight}px)] max-w-[600px] justify-end w-full px-5 md:px-0 pt-2 pb-20 overflow-hidden relative`}
+        className={`flex flex-1 mx-auto h-[calc(100dvh-${navHeight}px)] max-w-[600px] justify-end w-full px-5 md:px-0 pt-2 pb-15 overflow-hidden relative`}
       >
         {/* Welcome / conversation area */}
 
