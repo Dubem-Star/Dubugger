@@ -70,7 +70,10 @@ const sendMessage = async (req, res) => {
         // Send the message to ChatGPT API as a fallback
 
         formattedContent = formattedContent.map((msg) => {
-          return { role: msg.role, content: msg.parts[0].text };
+          return {
+            role: msg.role === "model" ? "assistant" : msg.role,
+            content: msg.parts[0].text,
+          };
         });
 
         const apiResponse = await axios.post(
