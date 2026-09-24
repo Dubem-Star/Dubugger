@@ -68,6 +68,11 @@ const sendMessage = async (req, res) => {
     if (e.response?.status === 429 || e.response?.status === 503) {
       try {
         // Send the message to ChatGPT API as a fallback
+
+        formattedContent = formattedContent.map((msg) => {
+          return { role: msg.role, content: msg.parts[0].text };
+        });
+
         const apiResponse = await axios.post(
           `https://api.openai.com/v1/responses`,
           {
