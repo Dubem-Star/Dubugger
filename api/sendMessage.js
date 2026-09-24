@@ -79,7 +79,7 @@ const sendMessage = async (req, res) => {
         const apiResponse = await axios.post(
           `https://api.openai.com/v1/responses`,
           {
-            model: "gpt-5",
+            model: "gpt-5.6-luna",
             input: formattedContent,
           },
           {
