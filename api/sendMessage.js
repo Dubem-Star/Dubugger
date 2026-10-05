@@ -112,8 +112,8 @@ const sendMessage = async (req, res) => {
           error = "The server is currently overloaded. Please try again later.";
         }
         res.status(500).json({ data: false, error: error });
-        console.error("Status:", e.response?.status);
-        console.error("Provider Response Data:", e.response?.data);
+        console.error("Status:", e.response?.status || e.status);
+        console.error("Provider Response Data:", e.response?.data || e.data);
       }
     }
   }
