@@ -76,8 +76,10 @@ const sendMessage = async (req, res) => {
           };
         });
 
+        const cappedContent = formattedContent.slice(-30);
+
         const chatCompletion = await groq.chat.completions.create({
-          messages: formattedContent,
+          messages: cappedContent,
           model: "openai/gpt-oss-120b",
           temperature: 1,
           max_completion_tokens: 2048,
