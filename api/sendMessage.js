@@ -37,7 +37,6 @@ const sendMessage = async (req, res) => {
     formattedContent = chat.messages.map((msg) => {
       return { role: msg.role, parts: [{ text: msg.content }] };
     });
-    console.log(`API KEY: ${process.env.GEMINI_API_KEY}`);
     const apiResponse = await axios.post(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent`,
       { contents: formattedContent },
@@ -79,7 +78,7 @@ const sendMessage = async (req, res) => {
 
         const chatCompletion = await groq.chat.completions.create({
           messages: formattedContent,
-          model: "openai/gpt-oss-safeguard-20b",
+          model: "openai/gpt-oss-120b",
           temperature: 1,
           max_completion_tokens: 2048,
           top_p: 1,
@@ -107,7 +106,7 @@ const sendMessage = async (req, res) => {
           error = "The server is currently overloaded. Please try again later.";
         }
         res.status(500).json({ data: false, error: error });
-        console.error("Error:", e);
+
         console.error("Status:", e.status);
         console.error("Provider Response Data:", e.message);
       }

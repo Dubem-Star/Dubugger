@@ -28,7 +28,7 @@ function InputBox(prop) {
 
   return (
     <div
-      className={`${prop.inputWidth ? "flex flex-col px-5 md:px-0 absolute left-[50%] translate-x-[-50%] bottom-[10px] flex justify-center w-full" : ""}`}
+      className={`${prop.inputWidth ? "flex flex-col px-5 md:px-0 absolute left-[50%] translate-x-[-50%] bottom-[10px]  w-full" : ""} flex justify-center`}
     >
       {prop.inputWidth ? (
         <div
