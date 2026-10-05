@@ -102,18 +102,13 @@ const sendMessage = async (req, res) => {
         // Send final data to frontend
         res.status(200).json({ data: updatedChat });
       } catch (e) {
-        let error = "error";
-        if (
-          e.status === 429 ||
-          e.status === 503 ||
-          e.response?.status === 429 ||
-          e.response?.status === 503
-        ) {
+        let error = "An error occurred while sending the message.";
+        if (e.status === 429 || e.status === 503) {
           error = "The server is currently overloaded. Please try again later.";
         }
         res.status(500).json({ data: false, error: error });
-        console.error("Status:", e.response?.status || e.status);
-        console.error("Provider Response Data:", e.response?.data || e.data);
+        console.error("Status:", e.status);
+        console.error("Provider Response Data:", e.message);
       }
     }
   }
