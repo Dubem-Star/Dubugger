@@ -63,7 +63,7 @@ export default function TextTransition({
     .join("");
 
   return (
-    <h1 className="text-3xl md:text-4xl font-bold text-white text-center leading-snug mb-3 md:mb-1.5 max-w-[480px] absolute top-0 start-0">
+    <h1 className="text-3xl md:text-4xl font-bold text-white text-center leading-snug mb-3 md:mb-1.5 max-w-[500px] absolute top-0 start-[50%] -translate-x-1/2 w-full">
       <span dangerouslySetInnerHTML={{ __html: currentHtmlString }} />
 
       {/* Permanent, safe cursor that never breaks */}

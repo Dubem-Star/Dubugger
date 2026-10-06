@@ -71,21 +71,21 @@ function Main(prop) {
                 transition={{ duration: 0.2 }}
                 className="flex-1 flex flex-col items-center pt-10 justify-center px-6 pb-6 "
               >
-                <div className="mt-[-90px] md:mt-[-50px] lg:mt-[0]">
-                  <div className="relative">
-                    <h1 className="text-3xl md:text-4xl font-bold text-white text-center leading-snug mb-3 md:mb-1.5 max-w-[480px] opacity-0">
+                <div className="mt-[-90px] md:mt-[-50px] lg:mt-[0] w-full">
+                  <div className="relative flex justify-center">
+                    <h1 className="text-3xl md:text-4xl font-bold text-white text-center leading-snug mb-3 md:mb-1.5 max-w-[500px] opacity-0">
                       Which line is giving you a Headache?
                     </h1>
                     <TextTransition words={actionWords} />
                   </div>
 
-                  <p className="text-[13px] text-slate-500 text-center mb-8 md:mt-5 mx-auto leading-relaxed max-w-[360px]">
+                  <p className="text-[13px] text-slate-500 text-center mb-8 mt-5 md:mt-5 mx-auto leading-relaxed max-w-[360px]">
                     Paste your error below. Dubby will explain it, fix it, and
                     make sure it never haunts you again.
                   </p>
                   {/* ************LOADING STATE******************** */}
                   <div
-                    className="w-full max-w-[600px] mb-4  loading-bar"
+                    className="w-full w-[390px] md:w-[500px] mb-4 loading-bar mx-auto"
                     id="loadingBar"
                   >
                     <img

@@ -56,8 +56,7 @@ function App() {
       sendBtn.disabled = false;
 
       const aiReply = res.data.messages.at(-1).content;
-      const convertedReply = aiReply;
-      // marked.parse(aiReply);
+      const convertedReply = marked.parse(aiReply);
       setMessages((prev) => [
         ...prev,
         { role: "model", content: convertedReply },

@@ -6,28 +6,6 @@ function Chatbox(prop) {
   const chatCont = useRef(null);
   const [navHeight, setNavHeight] = useState(0);
 
-  // useEffect(() => {
-  //   const msgInput = document.getElementById("msgInput");
-
-  //   function submit(e) {
-  //     if (e.key === "Enter" && !e.shiftKey) {
-  //       e.preventDefault();
-  //       if (e.target.textContent.trim()) {
-  //         prop.setIsInputValue(e.target.textContent.trim());
-  //         prop.handleSend(e.target.textContent.trim());
-  //       }
-  //     }
-  //   }
-
-  //   if (msgInput) {
-  //     msgInput.addEventListener("keydown", submit);
-  //   }
-
-  //   return () => {
-  //     if (msgInput) msgInput.removeEventListener("keydown", submit);
-  //   };
-  // }, []);
-
   useEffect(() => {
     const outerWrapper = document.getElementById("outerContainer");
     const scrollableContainer = document.getElementById("innerContainer");
@@ -81,7 +59,9 @@ function Chatbox(prop) {
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} mb-6 chat-message`}
                   key={i}
                 >
-                  <div className="max-w-[80%] md:max-w-[65%]">
+                  <div
+                    className={`${msg.role === "user" ? "max-w-[80%] md:max-w-[65%]" : "max-w-[100%]"}`}
+                  >
                     <div
                       className={`rounded-2xl flex justify-center ${msg.role === "user" ? "rounded-tr-sm bg-sky-400/10 border border-sky-400/20" : "rounded-tl-sm border border-white/5 bg-white/[0.025]"} p-3 `}
                     >
@@ -90,10 +70,10 @@ function Chatbox(prop) {
                           {msg.content}
                         </p>
                       ) : (
-                        <p
-                          className="text-sm text-slate-200  leading-relaxed"
+                        <div
+                          className="assistant-response text-sm text-slate-200 leading-relaxed"
                           dangerouslySetInnerHTML={{ __html: msg.content }}
-                        ></p>
+                        />
                       )}
                     </div>
 

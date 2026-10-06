@@ -14,6 +14,84 @@ body,
   font-family: "Google Sans", sans-serif !important;
 }
 
+.assistant-response {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.assistant-response > * + * {
+  margin-top: 0.85em;
+}
+
+.assistant-response > :first-child {
+  margin-top: 0;
+}
+
+.assistant-response > :last-child {
+  margin-bottom: 0;
+}
+
+.assistant-response h1,
+.assistant-response h2,
+.assistant-response h3,
+.assistant-response h4,
+.assistant-response h5,
+.assistant-response h6 {
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.assistant-response ul,
+.assistant-response ol {
+  padding-left: 1.5rem;
+}
+
+.assistant-response ul {
+  list-style: disc;
+}
+
+.assistant-response ol {
+  list-style: decimal;
+}
+
+.assistant-response li + li {
+  margin-top: 0.35em;
+}
+
+.assistant-response blockquote {
+  border-left: 2px solid rgb(148 163 184 / 0.45);
+  padding-left: 0.85rem;
+  color: rgb(203 213 225 / 0.8);
+}
+
+.assistant-response pre {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 0.5rem;
+  background: rgb(0 0 0 / 0.25);
+  padding: 0.75rem;
+}
+
+.assistant-response :not(pre) > code {
+  border-radius: 0.25rem;
+  background: rgb(255 255 255 / 0.08);
+  padding: 0.1em 0.3em;
+}
+
+.assistant-response table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.assistant-response th,
+.assistant-response td {
+  border: 1px solid rgb(255 255 255 / 0.15);
+  padding: 0.35rem 0.6rem;
+}
+
 @keyframes pulse-slow {
   0%,
   100% {
