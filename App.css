@@ -19,6 +19,11 @@ body,
   overflow-wrap: anywhere;
 }
 
+.assistant-response hr {
+  margin: 20px 0;
+  color: rgb(148 163 184 / 0.45);
+}
+
 .assistant-response > * + * {
   margin-top: 0.85em;
 }
@@ -44,6 +49,9 @@ body,
 .assistant-response ul,
 .assistant-response ol {
   padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65em;
 }
 
 .assistant-response ul {
@@ -78,11 +86,15 @@ body,
   background: rgb(255 255 255 / 0.08);
   padding: 0.1em 0.3em;
 }
+.assistant-response .table-scroll {
+  width: 100%;
+  overflow: hidden;
+  overflow-x: auto;
+}
 
 .assistant-response table {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
 }
 
@@ -90,6 +102,38 @@ body,
 .assistant-response td {
   border: 1px solid rgb(255 255 255 / 0.15);
   padding: 0.35rem 0.6rem;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+/* --- Chrome, Edge, and Safari --- */
+.assistant-response table::-webkit-scrollbar,
+.assistant-response .table-scroll::-webkit-scrollbar {
+  height: 8px; /* Controls the height of the horizontal scrollbar */
+  width: 8px; /* Controls the width of vertical scrollbars */
+}
+
+.assistant-response table::-webkit-scrollbar-track,
+.assistant-response .table-scroll::-webkit-scrollbar-track {
+  background: transparent; /* Track background color */
+}
+
+.assistant-response table::-webkit-scrollbar-thumb,
+.assistant-response .table-scroll::-webkit-scrollbar-thumb {
+  background: #45475a; /* Scrollbar handle color */
+  border-radius: 4px;
+}
+
+.assistant-response table::-webkit-scrollbar-thumb:hover,
+.assistant-response .table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #585b70; /* Handle color when hovering */
+}
+
+/* --- Firefox Support --- */
+.assistant-response table,
+.assistant-response .table-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #45475a #1e1e2e; /* thumb color, track color */
 }
 
 @keyframes pulse-slow {

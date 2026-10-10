@@ -10,6 +10,7 @@ function Chatbox(prop) {
     const outerWrapper = document.getElementById("outerContainer");
     const scrollableContainer = document.getElementById("innerContainer");
     const navbar = document.getElementById("navbar");
+    const innerTable = document.getElementById("innerTabl");
     setNavHeight(navbar ? navbar.offsetHeight : 0);
     if (chatCont.current) {
       setInputWidth(true);
@@ -19,18 +20,31 @@ function Chatbox(prop) {
       "wheel",
       (e) => {
         if (e.target.closest("#msgInput")) return;
+        if (e.target.closest(".table-scroll")) return;
         e.preventDefault();
         scrollableContainer.scrollTop += e.deltaY;
       },
       { passive: false },
     );
 
+    document.addEventListener(
+      "wheel",
+      (e) => {
+        const scrollWrapper = e.target.closest(".table-scroll");
+        if (!scrollWrapper) return;
+        const table = scrollWrapper.querySelector("table");
+        const before = scrollWrapper.scrollLeft;
+        scrollWrapper.scrollLeft += e.deltaX;
+        console.log("scrolling, hi");
+        if (scrollWrapper.scrollLeft !== before) {
+          e.preventDefault();
+        }
+      },
+      { passive: false },
+    );
+
     prop.setEnterKey("chatbox");
   }, []);
-
-  useEffect(() => {
-    console.log(inputWidth);
-  }, [inputWidth]);
 
   useEffect(() => {
     const innerContainer = document.getElementById("innerContainer");
@@ -71,13 +85,15 @@ function Chatbox(prop) {
                         </p>
                       ) : (
                         <div
-                          className="assistant-response text-sm text-slate-200 leading-relaxed"
+                          className="assistant-response text-sm text-slate-200 leading-relaxed w-full"
                           dangerouslySetInnerHTML={{ __html: msg.content }}
                         />
                       )}
                     </div>
 
-                    <span className="block text-[10px] text-slate-600 text-right mt-1">
+                    <span
+                      className={`block text-[10px] text-slate-600 ${msg.role === "user" ? "text-right" : "text-left"} mt-1`}
+                    >
                       {msg.role === "user" ? "You" : "Dubby"}
                     </span>
                   </div>
@@ -92,6 +108,8 @@ function Chatbox(prop) {
           setIsInputValue={prop.setIsInputValue}
           handleSend={prop.handleSend}
           inputWidth={inputWidth}
+          isLoading={prop.isLoading}
+          setIsLoading={prop.setIsLoading}
         />
       </div>
     </>

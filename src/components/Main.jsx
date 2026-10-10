@@ -30,7 +30,10 @@ function Main(prop) {
           <div
             onClick={() => {
               prop.setIsSubmitted(false);
+              prop.setEnterKey("home");
               prop.setMessages([]);
+              localStorage.setItem("isSubmitted", "false");
+              localStorage.setItem("messages", JSON.stringify([]));
             }}
             className="flex items-center gap-2 cursor-pointer"
           >
@@ -98,6 +101,8 @@ function Main(prop) {
                     isInputValue={prop.isInputValue}
                     setIsInputValue={prop.setIsInputValue}
                     handleSend={prop.handleSend}
+                    isLoading={prop.isLoading}
+                    setIsLoading={prop.setIsLoading}
                   />
                 </div>
               </motion.div>
@@ -118,6 +123,8 @@ function Main(prop) {
                 setMessages={prop.setMessages}
                 enterKey={prop.enterKey}
                 setEnterKey={prop.setEnterKey}
+                isLoading={prop.isLoading}
+                setIsLoading={prop.setIsLoading}
               />
             </motion.div>
           )}

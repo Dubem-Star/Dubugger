@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 function InputBox(prop) {
   const [box, setBox] = useState(null);
   const [inputHeight, setInputHeight] = useState(null);
-
+  // console.log(prop.isLoading);
   function handleInputKeyDown(e) {
     const input = e.currentTarget;
     const value = input.textContent.trim();
@@ -32,8 +32,7 @@ function InputBox(prop) {
     >
       {prop.inputWidth ? (
         <div
-          className="w-full flex jusify-start  mb-4  loading-bar"
-          id="loadingBar"
+          className={`w-full flex jusify-start  mb-4  loading-bar  ${prop.isLoading ? "show" : ""} `}
         >
           <img
             src="/logos/dubugger_logo_filled.png"
@@ -71,7 +70,10 @@ function InputBox(prop) {
           <div className="flex items-center  gap-2 flex-shrink-0">
             <button
               id="sendBtn"
-              onClick={() => prop.handleSend(prop.isInputValue)}
+              onClick={() => {
+                prop.setIsLoading(true);
+                prop.handleSend(prop.isInputValue);
+              }}
               className={`w-7 h-7 rounded-full flex items-center justify-center transition-opacity cursor-pointer ${prop.isInputValue ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}
               style={{
                 background: "linear-gradient(90deg, #61eb96, #59d88a, #0ee9b6)",

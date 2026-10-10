@@ -7,9 +7,15 @@ import Chatbox from "./src/components/Chatbox";
 function App() {
   const [enterKey, setEnterKey] = useState("home");
   const [isInputValue, setIsInputValue] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [messages, setMessages] = useState([]);
-
+  const [isSubmitted, setIsSubmitted] = useState(
+    localStorage.getItem("isSubmitted") === "true" ? true : false,
+  );
+  const [messages, setMessages] = useState(
+    localStorage.getItem("messages")
+      ? JSON.parse(localStorage.getItem("messages"))
+      : [],
+  );
+  const [isLoading, setIsLoading] = useState(false);
   {
     /* ***************HANDLE SEND FUNCTION***************** */
   }
@@ -19,7 +25,9 @@ function App() {
     const innerContainer = document.getElementById("innerContainer");
     const sendBtn = document.getElementById("sendBtn");
     const msgInput = document.getElementById("msgInput");
-    loadingBar.classList.add("show");
+    if (loadingBar) {
+      loadingBar.classList.add("show");
+    }
     sendBtn.disabled = true;
 
     sendBtnContent.src = `/icons/square_icon.png`;
@@ -32,6 +40,10 @@ function App() {
         behavior: "smooth",
       });
       msgInput.textContent = "";
+    }
+
+    {
+      /* ***************FETCH RESPONSE FROM BACKEND***************** */
     }
 
     const response = await fetch(
@@ -49,14 +61,30 @@ function App() {
 
     if (res.data) {
       setIsSubmitted(true);
+      localStorage.setItem("isSubmitted", "true");
       setIsInputValue("");
-      loadingBar.classList.remove("show");
+      setIsLoading(false);
+      if (loadingBar) {
+        loadingBar.classList.remove("show");
+      }
+
       sendBtnContent.src = `/icons/right-up_icon.png`;
       sendBtnContent.className = "w-5 h-5";
       sendBtn.disabled = false;
 
       const aiReply = res.data.messages.at(-1).content;
-      const convertedReply = marked.parse(aiReply);
+      const html = marked.parse(aiReply);
+      const parsed = new DOMParser().parseFromString(html, "text/html");
+
+      parsed.querySelectorAll("table").forEach((table) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "table-scroll";
+
+        table.before(wrapper);
+        wrapper.append(table);
+      });
+
+      const convertedReply = parsed.body.innerHTML;
       setMessages((prev) => [
         ...prev,
         { role: "model", content: convertedReply },
@@ -72,12 +100,13 @@ function App() {
   }
   useEffect(() => {
     const msgInput = document.getElementById("msgInput");
-
+    console.log("hi");
     function submit(e) {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         if (e.target.textContent.trim()) {
           setIsInputValue(e.target.textContent.trim());
+          setIsLoading(true);
           handleSend(e.target.textContent.trim());
         }
       }
@@ -92,6 +121,11 @@ function App() {
     };
   }, [enterKey]);
 
+  useEffect(() => {
+    console.log(messages);
+    localStorage.setItem("messages", JSON.stringify(messages));
+  }, [messages]);
+
   return (
     <>
       <Main
@@ -104,6 +138,8 @@ function App() {
         setMessages={setMessages}
         enterKey={enterKey}
         setEnterKey={setEnterKey}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
     </>
   );
