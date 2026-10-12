@@ -42,7 +42,7 @@ function InputBox(prop) {
       ) : null}
 
       <div
-        className={` flex justify-center items-center  ${!prop.inputWidth ? " w-[390px] md:w-[500px]" : ""} rounded-xl mb-2 transition-all  py-2 ${prop.inputWidth ? `    w-full` : ""}  bg-slate-950/70 backdrop-blur-sm
+        className={` flex relative justify-center items-center  ${!prop.inputWidth ? " w-[390px] md:w-[500px]" : ""} rounded-xl mb-2 transition-all  py-2 ${prop.inputWidth ? `    w-full` : ""}  bg-slate-950/70 backdrop-blur-sm
     shadow-[0_10px_30px_rgba(15,23,42,0.7)]`}
         style={{
           background: prop.inputWidth
@@ -51,22 +51,28 @@ function InputBox(prop) {
           border: "0.5px solid rgba(0, 188, 255, 0.2)",
         }}
       >
-        {/* {contentEditable textarea} */}
+        {/* ***************PLUS ICON***************** */}
+        <div className="absolute start-3 top-[50%] -translate-y-1/2">
+          <img
+            src="/icons/plus.png"
+            className="w-6 h-6 cursor-pointer p-[6px] rounded-full hover:bg-white/5"
+          />
+        </div>
+        {/* ***************TEXTAREA INPUT***************** */}
         <div className="flex-1 overscroll-none min-w-0" id="box">
           <div
             contentEditable="true"
             placeholder="Ask Dubby..."
             onInput={(e) => handleInputKeyDown(e)}
-            className={`center-input overscroll-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden w-full min-w-0 overflow-y-auto min-h-[24px] max-h-[100px] bg-transparent text-base text-slate-300 resize-none  outline-none px-4 pt-2 pb-2 leading-relaxed placeholder:text-slate-600 whitespace-pre-wrap break-words`}
+            className={`center-input overscroll-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden w-full min-w-0 overflow-y-auto min-h-[24px] max-h-[100px] bg-transparent text-base text-slate-300 resize-none  outline-none ps-12 pe-4 pt-2 pb-2 leading-relaxed placeholder:text-slate-600 whitespace-pre-wrap break-words`}
             id="msgInput"
           ></div>
         </div>
-
+        {/* ***************SUBMIT BUTTON***************** */}
         <div
           className="flex items-center justify-between  px-3 py-1"
           id="sendBtnCont"
         >
-          {/* ***************SUBMIT BUTTON***************** */}
           <div className="flex items-center  gap-2 flex-shrink-0">
             <button
               id="sendBtn"

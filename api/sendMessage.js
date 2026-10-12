@@ -7,6 +7,7 @@ import { Groq } from "groq-sdk";
 let formattedContent = [];
 
 const sendMessage = async (req, res) => {
+  let chat;
   try {
     setCors(res);
 
@@ -14,21 +15,22 @@ const sendMessage = async (req, res) => {
       return res.status(200).end();
     }
     await connectDb();
-    const { message } = req.body;
+    const { message, chatId } = req.body;
 
     // Get and Update the Chat History from Database (Prompt)
-    let chat = await ChatHistory.findOne({ chatId: "anon_session_8f93a" });
+    chat = await ChatHistory.findOne({ chatId: chatId });
     if (chat) {
       chat = await ChatHistory.findOneAndUpdate(
-        { chatId: "anon_session_8f93a" },
+        { chatId: chatId },
         {
           $push: { messages: { role: "user", content: message } },
         },
         { new: true },
       );
     } else {
+      const chatId = uuidv4();
       chat = await ChatHistory.create({
-        chatId: "anon_session_8f93a",
+        chatId: chatId,
         messages: [{ role: "user", content: message }],
       });
     }
@@ -54,7 +56,7 @@ const sendMessage = async (req, res) => {
       "No response generated.";
 
     const updatedChat = await ChatHistory.findOneAndUpdate(
-      { chatId: "anon_session_8f93a" },
+      { chatId: chat.chatId },
       {
         $push: { messages: { role: "model", content: aiReply } },
       },
@@ -62,12 +64,15 @@ const sendMessage = async (req, res) => {
     );
 
     // Send final data to frontend
-    res.status(200).json({ data: updatedChat });
+    res.status(200).json({ data: updatedChat, chatId: chat.chatId });
     return;
   } catch (e) {
+    /* ****************************** RETRY API REQUEST WITH GROQ******************************** */
+    /* ****************************** RETRY API REQUEST WITH GROQ******************************** */
+
     if (e.response?.status === 429 || e.response?.status === 503) {
       try {
-        // Send the message to Groq API as a fallback
+        //
         const groq = new Groq();
         formattedContent = formattedContent.map((msg) => {
           return {
@@ -94,14 +99,14 @@ const sendMessage = async (req, res) => {
           chatCompletion.choices[0].message.content || "No response generated.";
 
         const updatedChat = await ChatHistory.findOneAndUpdate(
-          { chatId: "anon_session_8f93a" },
+          { chatId: chat.chatId },
           {
             $push: { messages: { role: "model", content: aiReply } },
           },
           { new: true },
         );
         // Send final data to frontend
-        res.status(200).json({ data: updatedChat });
+        res.status(200).json({ data: updatedChat, chatId: chat.chatId });
       } catch (e) {
         let error = "An error occurred while sending the message.";
         if (e.status === 429 || e.status === 503) {

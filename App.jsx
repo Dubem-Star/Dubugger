@@ -29,6 +29,7 @@ function App() {
       loadingBar.classList.add("show");
     }
     sendBtn.disabled = true;
+    sendBtn.style.pointerEvents = "none";
 
     sendBtnContent.src = `/icons/square_icon.png`;
     sendBtnContent.className = "w-3 h-3";
@@ -53,12 +54,18 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: value }),
+        body: JSON.stringify({
+          message: value,
+          chatId: localStorage.getItem("chatId") || null,
+        }),
       },
     );
 
     const res = await response.json();
 
+    {
+      /* ***************GET RESPONSE FROM BACKEND***************** */
+    }
     if (res.data) {
       setIsSubmitted(true);
       localStorage.setItem("isSubmitted", "true");
@@ -68,9 +75,12 @@ function App() {
         loadingBar.classList.remove("show");
       }
 
+      localStorage.setItem("chatId", res.data.chatId);
+
       sendBtnContent.src = `/icons/right-up_icon.png`;
       sendBtnContent.className = "w-5 h-5";
       sendBtn.disabled = false;
+      sendBtn.style.pointerEvents = "auto";
 
       const aiReply = res.data.messages.at(-1).content;
       const html = marked.parse(aiReply);
