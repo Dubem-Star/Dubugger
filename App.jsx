@@ -19,6 +19,7 @@ function App() {
   {
     /* ***************HANDLE SEND FUNCTION***************** */
   }
+  localStorage.setItem("chatId", "hi");
   async function handleSend(value) {
     const loadingBar = document.getElementById("loadingBar");
     const sendBtnContent = document.getElementById("sendBtnContent");
@@ -42,7 +43,7 @@ function App() {
       });
       msgInput.textContent = "";
     }
-
+    localStorage.setItem("chatId", "hi");
     {
       /* ***************FETCH RESPONSE FROM BACKEND***************** */
     }

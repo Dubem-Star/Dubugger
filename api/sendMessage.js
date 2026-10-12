@@ -18,6 +18,7 @@ const sendMessage = async (req, res) => {
     const { message, chatId } = req.body;
 
     // Get and Update the Chat History from Database (Prompt)
+    console.log("chatId:", chatId);
     chat = await ChatHistory.findOne({ chatId: chatId });
     if (chat) {
       chat = await ChatHistory.findOneAndUpdate(
