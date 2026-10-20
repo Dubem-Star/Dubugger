@@ -2,7 +2,7 @@ import InputBox from "./InputBox";
 import { useRef, useEffect, useState } from "react";
 
 function Chatbox(prop) {
-  const [inputWidth, setInputWidth] = useState(null);
+  const [inputWidth, setInputWidth] = useState(true);
   const chatCont = useRef(null);
   const [navHeight, setNavHeight] = useState(0);
 
@@ -43,6 +43,12 @@ function Chatbox(prop) {
       { passive: false },
     );
 
+    const innerContainer = document.getElementById("innerContainer");
+    innerContainer.scrollTo({
+      top: innerContainer.scrollHeight,
+      behavior: "smooth",
+    });
+
     prop.setEnterKey("chatbox");
   }, []);
 
@@ -63,10 +69,10 @@ function Chatbox(prop) {
 
         <div
           ref={chatCont}
-          className="flex h-[95%]   relative overflow-y-auto flex-col gap-6  w-full [scrollbar-width:none][-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden  inner-container"
+          className="flex h-[98%] pb-3 mb-3   relative overflow-y-auto flex-col gap-6  w-full [scrollbar-width:none][-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden  inner-container"
           id="innerContainer"
         >
-          <div className="flex-1 min-h-0  ">
+          <div className=" flex-none min-h-full">
             {prop.messages.map((msg, i) => {
               return (
                 <div

@@ -19,7 +19,7 @@ function App() {
   {
     /* ***************HANDLE SEND FUNCTION***************** */
   }
-  localStorage.setItem("chatId", "hi");
+
   async function handleSend(value) {
     const loadingBar = document.getElementById("loadingBar");
     const sendBtnContent = document.getElementById("sendBtnContent");
@@ -43,7 +43,7 @@ function App() {
       });
       msgInput.textContent = "";
     }
-    localStorage.setItem("chatId", "hi");
+
     {
       /* ***************FETCH RESPONSE FROM BACKEND***************** */
     }
@@ -70,13 +70,12 @@ function App() {
     if (res.data) {
       setIsSubmitted(true);
       localStorage.setItem("isSubmitted", "true");
+      localStorage.setItem("chatId", res.chatId);
       setIsInputValue("");
       setIsLoading(false);
       if (loadingBar) {
         loadingBar.classList.remove("show");
       }
-
-      localStorage.setItem("chatId", res.data.chatId);
 
       sendBtnContent.src = `/icons/right-up_icon.png`;
       sendBtnContent.className = "w-5 h-5";
@@ -111,7 +110,6 @@ function App() {
   }
   useEffect(() => {
     const msgInput = document.getElementById("msgInput");
-    console.log("hi");
     function submit(e) {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -133,7 +131,6 @@ function App() {
   }, [enterKey]);
 
   useEffect(() => {
-    console.log(messages);
     localStorage.setItem("messages", JSON.stringify(messages));
   }, [messages]);
 
