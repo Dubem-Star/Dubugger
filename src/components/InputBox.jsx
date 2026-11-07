@@ -26,18 +26,35 @@ function InputBox(prop) {
     return () => {};
   }, []);
 
+  useEffect(() => {
+    if (!prop.isLoading) return;
+    const loader = document.querySelector(".loading-bar");
+    if (!loader) return;
+
+    loader.style.transform = "translateZ(0) scale(1.0001)";
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        loader.style.transform = "";
+      });
+    });
+  }, [prop.isLoading]);
+
   return (
     <div
       className={`${prop.inputWidth ? "flex flex-col px-5 md:px-0 absolute left-[50%] translate-x-[-50%] bottom-[10px]  w-full" : ""} flex justify-center`}
     >
       {prop.inputWidth ? (
         <div
+          id="loadingBar"
           className={`w-full flex jusify-start  mb-4  loading-bar  ${prop.isLoading ? "show" : ""} `}
         >
-          <img
-            src="/logos/dubugger_logo_filled.png"
-            className="w-7 prompt-loader"
-          />
+          <div
+            className="w-7 h-7 bg-contain bg-no-repeat bg-center prompt-loader"
+            style={{
+              backgroundImage: "url('/logos/dubugger_logo_filled.png')",
+            }}
+          ></div>
         </div>
       ) : null}
 
@@ -78,6 +95,7 @@ function InputBox(prop) {
               id="sendBtn"
               onClick={() => {
                 prop.setIsLoading(true);
+
                 prop.handleSend(prop.isInputValue);
               }}
               className={`w-7 h-7 rounded-full flex items-center justify-center transition-opacity cursor-pointer ${prop.isInputValue ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}

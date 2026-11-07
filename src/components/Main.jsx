@@ -88,7 +88,7 @@ function Main(prop) {
                   </p>
                   {/* ************LOADING STATE******************** */}
                   <div
-                    className="w-full w-[390px] md:w-[500px] mb-4 loading-bar mx-auto"
+                    className="w-full w-[390px] md:w-[500px] mb-4 loading-bar  mx-auto"
                     id="loadingBar"
                   >
                     <img

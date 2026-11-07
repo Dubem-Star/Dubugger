@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from "react";
 function Chatbox(prop) {
   const [inputWidth, setInputWidth] = useState(true);
   const chatCont = useRef(null);
-  const [navHeight, setNavHeight] = useState(0);
+  const [navHeight, setNavHeight] = useState(20);
 
   useEffect(() => {
     const outerWrapper = document.getElementById("outerContainer");
@@ -43,22 +43,18 @@ function Chatbox(prop) {
       { passive: false },
     );
 
-    const innerContainer = document.getElementById("innerContainer");
-    innerContainer.scrollTo({
-      top: innerContainer.scrollHeight,
-      behavior: "smooth",
-    });
-
     prop.setEnterKey("chatbox");
   }, []);
 
   useEffect(() => {
-    const innerContainer = document.getElementById("innerContainer");
+    const innerContainer = chatCont.current;
+    if (!innerContainer) return;
+
     innerContainer.scrollTo({
       top: innerContainer.scrollHeight,
       behavior: "smooth",
     });
-  }, [prop.messages]);
+  }, [prop.messages, navHeight]);
 
   return (
     <>

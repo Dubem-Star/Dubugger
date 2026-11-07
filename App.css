@@ -136,66 +136,6 @@ body,
   scrollbar-color: #45475a #1e1e2e; /* thumb color, track color */
 }
 
-@keyframes pulse-slow {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(0.85);
-  }
-}
-@keyframes glow-pulse {
-  0%,
-  100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-@keyframes load-bar {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(200%);
-  }
-}
-@keyframes blink-dot {
-  0%,
-  80%,
-  100% {
-    opacity: 0.2;
-  }
-  40% {
-    opacity: 1;
-  }
-}
-.animate-status-pulse {
-  animation: pulse-slow 2s infinite;
-}
-.animate-glow {
-  animation: glow-pulse 3s ease-in-out infinite;
-}
-.animate-loading-fill {
-  animation: load-bar 1.8s ease-in-out infinite;
-  width: 60%;
-}
-.animate-blink-1 {
-  animation: blink-dot 1.4s infinite;
-}
-.animate-blink-2 {
-  animation: blink-dot 1.4s infinite;
-  animation-delay: 0.2s;
-}
-.animate-blink-3 {
-  animation: blink-dot 1.4s infinite;
-  animation-delay: 0.4s;
-}
-
 @keyframes icon-spin {
   from {
     transform: rotate(0deg);
@@ -229,4 +169,8 @@ body,
   content: attr(placeholder);
   color: #aaaaaa9c;
   pointer-events: none; /* Makes it clickable like a real placeholder */
+}
+
+.inner-container {
+  -webkit-overflow-scrolling: auto !important;
 }
