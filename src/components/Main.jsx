@@ -55,7 +55,7 @@ function Main(prop) {
 
             <img
               src="/icons/sidebar_icon.png"
-              title="sidebar"
+              title="open sidebar"
               onClick={() => alert("coming soon.")}
               className="w-7 h-7 p-[6px] cursor-pointer rounded-full hover:bg-white/5"
             />

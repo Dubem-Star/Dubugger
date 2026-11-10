@@ -20,7 +20,8 @@ function App() {
     /* ***************HANDLE SEND FUNCTION***************** */
   }
 
-  async function handleSend(value) {
+  async function handleSend(value, timestamp) {
+    console.log(timestamp);
     const loadingBar = document.getElementById("loadingBar");
     const sendBtnContent = document.getElementById("sendBtnContent");
     const innerContainer = document.getElementById("innerContainer");
@@ -34,7 +35,10 @@ function App() {
 
     sendBtnContent.src = `/icons/square_icon.png`;
     sendBtnContent.className = "w-3 h-3";
-    setMessages((prev) => [...prev, { role: "user", content: value }]);
+    setMessages((prev) => [
+      ...prev,
+      { role: "user", content: value, timestamp: timestamp },
+    ]);
 
     if (innerContainer) {
       innerContainer.scrollTo({
@@ -97,7 +101,11 @@ function App() {
       const convertedReply = parsed.body.innerHTML;
       setMessages((prev) => [
         ...prev,
-        { role: "model", content: convertedReply },
+        {
+          role: "model",
+          content: convertedReply,
+          timestamp: new Date().toISOString(),
+        },
       ]);
     } else {
       alert(res.error || "An error occurred while sending the message.");
@@ -116,7 +124,7 @@ function App() {
         if (e.target.textContent.trim()) {
           setIsInputValue(e.target.textContent.trim());
           setIsLoading(true);
-          handleSend(e.target.textContent.trim());
+          handleSend(e.target.textContent.trim(), new Date().toISOString());
         }
       }
     }

@@ -5,7 +5,39 @@ function Chatbox(prop) {
   const [inputWidth, setInputWidth] = useState(true);
   const chatCont = useRef(null);
   const [navHeight, setNavHeight] = useState(20);
+  const [timestamp, setTimestamp] = useState(null);
 
+  // TIME SPANS INTERVALS*******************************
+  function formatTimestamp(inputTime) {
+    const now = new Date();
+    const past = new Date(inputTime);
+    const diffInSeconds = Math.floor((now - past) / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+
+    if (diffInSeconds < 60) return "Now";
+    if (diffInMinutes < 60)
+      return `${diffInMinutes}${diffInMinutes < 2 ? `min` : `mins`} ago `;
+    if (diffInHours < 24)
+      return `${diffInHours}${diffInHours < 2 ? `hr` : `hrs`} ago `;
+
+    const options = { day: "numeric", month: "short", year: "numeric" };
+    return past.toLocaleDateString("en-GB", options);
+  }
+
+  // Wrap the selector and loop inside a named function
+  function refreshAllTimestamps() {
+    const timeSpans = document.querySelectorAll(".live-time");
+    for (let span of timeSpans) {
+      const originalTime = span.getAttribute("data-time");
+      span.innerText = formatTimestamp(originalTime);
+    }
+  }
+  // Refresh all timestamps every minute
+  refreshAllTimestamps();
+  setInterval(refreshAllTimestamps, 60000);
+
+  // RELEVANT USEEFFECTS*******************************
   useEffect(() => {
     const outerWrapper = document.getElementById("outerContainer");
     const scrollableContainer = document.getElementById("innerContainer");
@@ -21,7 +53,7 @@ function Chatbox(prop) {
       (e) => {
         if (e.target.closest("#msgInput")) return;
         if (e.target.closest(".table-scroll")) return;
-        e.preventDefault();
+        // e.preventDefault();
         scrollableContainer.scrollTop += e.deltaY;
       },
       { passive: false },
@@ -35,7 +67,6 @@ function Chatbox(prop) {
         const table = scrollWrapper.querySelector("table");
         const before = scrollWrapper.scrollLeft;
         scrollWrapper.scrollLeft += e.deltaX;
-        console.log("scrolling, hi");
         if (scrollWrapper.scrollLeft !== before) {
           e.preventDefault();
         }
@@ -56,6 +87,49 @@ function Chatbox(prop) {
     });
   }, [prop.messages, navHeight]);
 
+  // COPY BUTTON FUNCTION*******************************
+  function placeMenuButtons(msg) {
+    return (
+      <>
+        <img
+          src="/icons/copy.png"
+          alt="copy message"
+          title="Copy message"
+          class="w-3 h-3 md:w-[15px] md:me-1 md:h-[15px] mt-[6px] md:mt-1 cursor-pointer copy-icon md:opacity-0  "
+          onClick={(e) => {
+            e.target.src = "/icons/checkmark.png";
+            navigator.clipboard.writeText(msg.content);
+            setTimeout(() => {
+              e.target.src = "/icons/copy.png";
+            }, 2000);
+          }}
+        />
+
+        {msg.role === "model" ? (
+          <img
+            src="/icons/recycle.png"
+            alt="regenerate response"
+            title="Regenerate response"
+            class="w-3 h-3 md:w-[15px] md:h-[15px] mt-[6px] md:mt-1 ms-2 cursor-pointer regenerate-icon md:opacity-0"
+            onClick={(e) => {
+              alert("coming soon.");
+            }}
+          />
+        ) : (
+          <img
+            src="/icons/edit.png"
+            alt="edit message"
+            title="Edit message"
+            class="w-3 h-3 md:w-4 md:h-4 mt-[6px] md:mt-1 ms-2 cursor-pointer edit-icon md:opacity-0  "
+            onClick={(e) => {
+              alert("coming soon.");
+            }}
+          />
+        )}
+      </>
+    );
+  }
+
   return (
     <>
       <div
@@ -72,14 +146,14 @@ function Chatbox(prop) {
             {prop.messages.map((msg, i) => {
               return (
                 <div
-                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} mb-6 chat-message`}
+                  className={`flex relative ${msg.role === "user" ? "justify-end" : "justify-start"} mb-10 chat-message`}
                   key={i}
                 >
                   <div
-                    className={`${msg.role === "user" ? "max-w-[80%] md:max-w-[65%]" : "max-w-[100%]"}`}
+                    className={`relative chat-bubble ${msg.role === "user" ? "max-w-[80%] md:max-w-[65%]" : "max-w-[100%]"}`}
                   >
                     <div
-                      className={`rounded-2xl flex justify-center ${msg.role === "user" ? "rounded-tr-sm bg-sky-400/10 border border-sky-400/20" : "rounded-tl-sm border border-white/5 bg-white/[0.025]"} p-3 `}
+                      className={`rounded-2xl  flex justify-center ${msg.role === "user" ? "rounded-tr-sm bg-sky-400/10 border border-sky-400/20" : "rounded-tl-sm border border-white/5 bg-white/[0.025]"} p-3 `}
                     >
                       {msg.role === "user" ? (
                         <p className="text-sm text-slate-200  leading-relaxed">
@@ -92,12 +166,20 @@ function Chatbox(prop) {
                         />
                       )}
                     </div>
+                  </div>
+                  <div
+                    className={`absolute chat-bubble-menu  w-fit flex justify-end ${msg.role === "user" ? "justify-end bottom-[-20px]" : "justify-start bottom-[-22px]"}`}
+                  >
+                    {msg.role === "user" ? placeMenuButtons(msg) : null}
 
                     <span
-                      className={`block text-[10px] text-slate-600 ${msg.role === "user" ? "text-right" : "text-left"} mt-1`}
+                      data-time={`${msg.timestamp}`}
+                      className={` block text-[10px] live-time text-slate-600 ${msg.role === "user" ? "ms-3" : "me-3 "} mt-1`}
                     >
-                      {msg.role === "user" ? "You" : "Dubby"}
+                      Now
                     </span>
+
+                    {msg.role === "model" ? placeMenuButtons(msg) : null}
                   </div>
                 </div>
               );
@@ -112,6 +194,7 @@ function Chatbox(prop) {
           inputWidth={inputWidth}
           isLoading={prop.isLoading}
           setIsLoading={prop.setIsLoading}
+          formatTimestamp={formatTimestamp}
         />
       </div>
     </>

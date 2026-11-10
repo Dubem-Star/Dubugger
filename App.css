@@ -174,3 +174,17 @@ body,
 .inner-container {
   -webkit-overflow-scrolling: auto !important;
 }
+.chat-message .copy-icon,
+.chat-message .edit-icon,
+.chat-message .regenerate-icon {
+  /* opacity: 0; */
+  transition: opacity 0.3s ease-in-out;
+}
+.chat-bubble:hover ~ .chat-bubble-menu .copy-icon,
+.chat-bubble:hover ~ .chat-bubble-menu .edit-icon,
+.chat-bubble:hover ~ .chat-bubble-menu .regenerate-icon,
+.chat-bubble-menu:hover .copy-icon,
+.chat-bubble-menu:hover .edit-icon,
+.chat-bubble-menu:hover .regenerate-icon {
+  opacity: 1;
+}

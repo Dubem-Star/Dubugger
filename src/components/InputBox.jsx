@@ -96,7 +96,7 @@ function InputBox(prop) {
               onClick={() => {
                 prop.setIsLoading(true);
 
-                prop.handleSend(prop.isInputValue);
+                prop.handleSend(prop.isInputValue, new Date().toISOString());
               }}
               className={`w-7 h-7 rounded-full flex items-center justify-center transition-opacity cursor-pointer ${prop.isInputValue ? "opacity-100 pointer-events-auto" : "opacity-50 pointer-events-none"}`}
               style={{
