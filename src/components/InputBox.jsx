@@ -93,6 +93,7 @@ function InputBox(prop) {
           <div className="flex items-center  gap-2 flex-shrink-0">
             <button
               id="sendBtn"
+              title="Send"
               onClick={() => {
                 prop.setIsLoading(true);
 

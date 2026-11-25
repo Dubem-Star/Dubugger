@@ -125,6 +125,8 @@ function Main(prop) {
                 setEnterKey={prop.setEnterKey}
                 isLoading={prop.isLoading}
                 setIsLoading={prop.setIsLoading}
+                abortController={prop.abortController}
+                setAbortController={prop.setAbortController}
               />
             </motion.div>
           )}

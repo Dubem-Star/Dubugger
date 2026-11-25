@@ -1,4 +1,5 @@
 import InputBox from "./InputBox";
+import ChatMenuButtons from "./plugins/ChatMenuButtons";
 import { useRef, useEffect, useState } from "react";
 
 function Chatbox(prop) {
@@ -87,49 +88,6 @@ function Chatbox(prop) {
     });
   }, [prop.messages, navHeight]);
 
-  // COPY BUTTON FUNCTION*******************************
-  function placeMenuButtons(msg) {
-    return (
-      <>
-        <img
-          src="/icons/copy.png"
-          alt="copy message"
-          title="Copy message"
-          class="w-3 h-3 md:w-[15px] md:me-1 md:h-[15px] mt-[6px] md:mt-1 cursor-pointer copy-icon md:opacity-0  "
-          onClick={(e) => {
-            e.target.src = "/icons/checkmark.png";
-            navigator.clipboard.writeText(msg.content);
-            setTimeout(() => {
-              e.target.src = "/icons/copy.png";
-            }, 2000);
-          }}
-        />
-
-        {msg.role === "model" ? (
-          <img
-            src="/icons/recycle.png"
-            alt="regenerate response"
-            title="Regenerate response"
-            class="w-3 h-3 md:w-[15px] md:h-[15px] mt-[6px] md:mt-1 ms-2 cursor-pointer regenerate-icon md:opacity-0"
-            onClick={(e) => {
-              alert("coming soon.");
-            }}
-          />
-        ) : (
-          <img
-            src="/icons/edit.png"
-            alt="edit message"
-            title="Edit message"
-            class="w-3 h-3 md:w-4 md:h-4 mt-[6px] md:mt-1 ms-2 cursor-pointer edit-icon md:opacity-0  "
-            onClick={(e) => {
-              alert("coming soon.");
-            }}
-          />
-        )}
-      </>
-    );
-  }
-
   return (
     <>
       <div
@@ -139,51 +97,79 @@ function Chatbox(prop) {
 
         <div
           ref={chatCont}
-          className="flex h-[98%] pb-3 mb-3   relative overflow-y-auto flex-col gap-6  w-full [scrollbar-width:none][-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden  inner-container"
+          className="flex h-[98%] pb-5 mb-3   relative overflow-y-auto flex-col gap-6  w-full [scrollbar-width:none][-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden  inner-container"
           id="innerContainer"
         >
           <div className=" flex-none min-h-full">
             {prop.messages.map((msg, i) => {
               return (
-                <div
-                  className={`flex relative ${msg.role === "user" ? "justify-end" : "justify-start"} mb-10 chat-message`}
-                  key={i}
-                >
-                  <div
-                    className={`relative chat-bubble ${msg.role === "user" ? "max-w-[80%] md:max-w-[65%]" : "max-w-[100%]"}`}
-                  >
+                <>
+                  {msg.role === "model" &&
+                  msg.content === "...This request has been aborted..." ? (
                     <div
-                      className={`rounded-2xl  flex justify-center ${msg.role === "user" ? "rounded-tr-sm bg-sky-400/10 border border-sky-400/20" : "rounded-tl-sm border border-white/5 bg-white/[0.025]"} p-3 `}
+                      className={`w-full flex items-center my-6 gap-3 text-slate-400 text-[12px] `}
                     >
-                      {msg.role === "user" ? (
-                        <p className="text-sm text-slate-200  leading-relaxed">
-                          {msg.content}
-                        </p>
-                      ) : (
-                        <div
-                          className="assistant-response text-sm text-slate-200 leading-relaxed w-full"
-                          dangerouslySetInnerHTML={{ __html: msg.content }}
-                        />
-                      )}
+                      <span className="h-px flex-1 bg-slate-400/20"></span>
+                      <p className="whitespace-nowrap">
+                        You stopped this response
+                      </p>
+                      <span className="h-px flex-1 bg-slate-400/20"></span>
                     </div>
-                  </div>
-                  <div
-                    className={`absolute chat-bubble-menu  w-fit flex justify-end ${msg.role === "user" ? "justify-end bottom-[-20px]" : "justify-start bottom-[-22px]"}`}
-                  >
-                    {msg.role === "user" ? placeMenuButtons(msg) : null}
-
-                    <span
-                      data-time={`${msg.timestamp}`}
-                      className={` block text-[10px] live-time text-slate-600 ${msg.role === "user" ? "ms-3" : "me-3 "} mt-1`}
+                  ) : (
+                    <div
+                      className={`flex relative ${msg.role === "user" ? "justify-end" : "justify-start"} mb-10 chat-message`}
+                      key={i}
                     >
-                      Now
-                    </span>
+                      <div
+                        className={`relative chat-bubble ${msg.role === "user" ? "max-w-[80%] md:max-w-[65%]" : "max-w-[100%]"}`}
+                      >
+                        <div
+                          className={`rounded-2xl  flex justify-center ${msg.role === "user" ? "rounded-tr-sm bg-sky-400/10 border border-sky-400/20" : "rounded-tl-sm border border-white/5 bg-white/[0.025]"} p-3 `}
+                        >
+                          {msg.role === "user" ? (
+                            <p className="text-sm text-slate-200  leading-relaxed">
+                              {msg.content}
+                            </p>
+                          ) : (
+                            //  msg.content ===
+                            //   "...This request has been aborted..." ? (
+                            //   <div
+                            //     className={`w-full text-center border-1 mt-5 border-slate-600/20 text-slate-600 text-[12px] py-2 rounded-md`}
+                            //   >
+                            //     {" "}
+                            //     <p>This request has been aborted</p>{" "}
+                            //   </div>
+                            // ) :
+                            <div
+                              className="assistant-response text-sm text-slate-200 leading-relaxed w-full"
+                              dangerouslySetInnerHTML={{ __html: msg.content }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <div
+                        className={`absolute chat-bubble-menu  whitespace-nowrap flex justify-end bottom-[-22px] ${msg.role === "user" ? "justify-end " : "justify-start "}`}
+                      >
+                        {msg.role === "user" ? ChatMenuButtons(msg) : null}
 
-                    {msg.role === "model" ? placeMenuButtons(msg) : null}
-                  </div>
-                </div>
+                        <span
+                          data-time={`${msg.timestamp}`}
+                          className={` block text-[10px] live-time text-slate-600 ${msg.role === "user" ? "ms-3" : "me-3 "} mt-1`}
+                        >
+                          Now
+                        </span>
+
+                        {msg.role === "model" ? ChatMenuButtons(msg) : null}
+                      </div>
+                    </div>
+                  )}
+                </>
               );
             })}
+            {/* <div className={`w-full text-center border-1 mt-5 border-slate-600/20 text-slate-600 text-[12px] py-2 rounded-md ${prop.abortController ? "block" : "hidden"}`}>
+              {" "}
+              <p>This request has been aborted</p>{" "}
+            </div> */}
           </div>
         </div>
 

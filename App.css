@@ -90,20 +90,26 @@ body,
   width: 100%;
   overflow: hidden;
   overflow-x: auto;
+  margin: 20px 0;
 }
 
 .assistant-response table {
   width: max-content;
-  min-width: 100%;
+  table-layout: auto;
   border-collapse: collapse;
 }
 
 .assistant-response th,
 .assistant-response td {
   border: 1px solid rgb(255 255 255 / 0.15);
-  padding: 0.35rem 0.6rem;
-  white-space: nowrap;
-  overflow-wrap: normal;
+  padding: 0.6rem 0.7rem;
+  white-space: normal;
+  font-size: 0.7rem;
+  max-width: 250px;
+}
+
+.assistant-response th {
+  font-size: 0.75rem;
 }
 
 /* --- Chrome, Edge, and Safari --- */
@@ -187,4 +193,12 @@ body,
 .chat-bubble-menu:hover .edit-icon,
 .chat-bubble-menu:hover .regenerate-icon {
   opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .assistant-response th,
+  .assistant-response td {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.75rem;
+  }
 }
